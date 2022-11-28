@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { Modal } from '../components/Modal'
 import './Style.css'
+import styled from "styled-components"
 
 const NewEmployee = () => {
-    const [isOpen, setisOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [newEmployee, setNewEmployee] = useState({
+        firstName: "",
+        lastName: "",
+        startDate: "",
+        dateOfBirth: "",
+        street: "",
+        city: "",
+        zipCode: "",
+    })
 
-    const toggleEdit = () => {
-        setisOpen(!isOpen)
-    }
     const saveEmployee = () => {
-        setisOpen(!isOpen)
-
+        
+        setIsOpen(!isOpen)
     }
     return (
         <div>
@@ -18,11 +26,11 @@ const NewEmployee = () => {
                 <h1>HRnet</h1>
             </div>
             <div className="container">
-                <a href="employee-list.html">View Current Employees</a>
+                <Link to="listEmployee">View Current Employees</Link>
                 <h2>Create Employee</h2>
                 <form action="#" id="create-employee" onSubmit={saveEmployee}>
                     <label htmlFor="first-name">First Name</label>
-                    <input type="text" id="first-name" />
+                    <input type="text" id="first-name" onChange={(event) => setNewEmployee({ ...newEmployee, firstName: event.target.value })} />
 
                     <label htmlFor="last-name">Last Name</label>
                     <input type="text" id="last-name" />
@@ -57,11 +65,11 @@ const NewEmployee = () => {
                         <option>Human Resources</option>
                         <option>Legal</option>
                     </select>
+                    <button type="submit">Save</button>
                 </form>
 
-                <button>Save</button>
             </div>
-            <Modal onClose={toggleEdit}>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <div id="confirmation" className="modal">Employee Created!</div>
             </Modal>
         </div>
@@ -69,3 +77,5 @@ const NewEmployee = () => {
 }
 
 export default NewEmployee
+
+
