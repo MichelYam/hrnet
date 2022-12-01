@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Modal } from '../components/Modal'
-import './Style.css'
-import styled from "styled-components"
+import { Modal } from '../components/Modal/Modal';
+
+
+import './Style.css';
+
+import styled from "styled-components";
 
 const NewEmployee = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +20,7 @@ const NewEmployee = () => {
     })
 
     const saveEmployee = () => {
-        
+
         setIsOpen(!isOpen)
     }
     return (

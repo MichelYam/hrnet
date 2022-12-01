@@ -1,7 +1,5 @@
 import React from 'react'
-import "./Style.css";
 import styled from "styled-components";
-
 
 interface IModal {
     children: React.ReactNode,
