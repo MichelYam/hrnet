@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table'
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Index = ({ columns, data }: any) => {
     const [visibility, setVisibility] = useState([])
@@ -26,24 +26,43 @@ const Index = ({ columns, data }: any) => {
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
 
-    // const getVisiblePages = (page, total) => {
-    //     if (total < 7) {
-    //         return filterPages([1, 2, 3, 4, 5, 6], total);
-    //     } else {
-    //         if (page % 5 >= 0 && page > 4 && page + 2 < total) {
-    //             return [1, page - 1, page, page + 1, total];
-    //         } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
-    //             return [1, total - 3, total - 2, total - 1, total];
-    //         } else {
-    //             return [1, 2, 3, 4, 5, total];
-    //         }
-    //     }
-    // };
+    const getVisiblePages = (page: number, total: number) => {
+        if (total <= 7) {
+            const res = [];
+            for (let i = 0; i < total; i++) {
+                res.push(i + 1);
+            }
+            return res;
+        } else {
+            // if (page <= 2) {
+            //     return ["1", "2", "3", "...", `${total}`];
+            // } else if (page >= total - 1) {
+            //     return ["1", "2", "...", `${total - 1}`, `${total}`];
+            // } else {
+            //     return ["1", "...", `${page}`, "...", `${total}`];
+            // }
+            if (page % 5 >= 0 && page > 4 && page + 2 < total) {
+                return [1, "...", page - 1, page, page + 1, "...", total];
+            } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
+                return [1, "...", total - 3, total - 2, total - 1, total];
+            } else {
+                return [1, 2, 3, 4, 5, total];
+            }
+        }
+    };
     // const filterPages = (visiblePages, totalPages) => {
     //     console.log("test", visiblePages)
     //     return visiblePages.filter(page => page <= totalPages);
     // };
+    // console.log("pageOptions", pageOptions)
+
     const [value, setValue] = React.useState(state.globalFilter)
+    const [pagination, setPagination] = useState<(string | number)[]>([])
+    useEffect(() => {
+        setPagination(
+            getVisiblePages(pageIndex, controlledPageCount)
+        )
+    }, [controlledPageCount, pageIndex])
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
@@ -84,7 +103,6 @@ const Index = ({ columns, data }: any) => {
                 <StyledTableThead>
                     {headerGroups.map(headerGroup => (
                         <StyledTableTr {...headerGroup.getHeaderGroupProps()} >
-
                             {headerGroup.headers.map(column => (
                                 <StyledTableTh {...column.getHeaderProps(column.getSortByToggleProps())} >
                                     {column.render('Header')}
@@ -102,10 +120,10 @@ const Index = ({ columns, data }: any) => {
                 </StyledTableThead>
                 <StyledTableTbody {...getTableBodyProps()}>
                     {page.map(row => {
-                        prepareRow(row)   
+                        prepareRow(row)
                         return (
                             <StyledTableTr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
+                                {row.cells.map((cell) => {
                                     return (
                                         <StyledTableTd {...cell.getCellProps()} >
                                             {cell.render('Cell')}
@@ -126,16 +144,20 @@ const Index = ({ columns, data }: any) => {
                     Previous
                 </button>{' '}
                 <span>
-                    <strong>
-                        {pageOptions.length > 5 ?
-                            [5].map(() => {
-                                return <button>{pageIndex + 1}</button>
-                            }) :
-                            [pageSize].map((ele) => {
-                                return <button>{pageIndex + 1}</button>
-                            })
-                        }
-                    </strong>{' '}
+                    {
+                        // pageOptions.map((page) => {
+                        //     return <button>{page + 1}</button>
+                        // })
+                        pagination.map((page, index, array) => {
+                            return (
+                                <StyledPaginationBtn onClick={() => gotoPage(index)} key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} >
+                                    {/* {array[index - 1] + 2 < page ? `...` : page} */}
+                                    {page}
+                                </StyledPaginationBtn>
+                            )
+                        })
+                    }
+                    {' '}
                 </span>
                 <button onClick={() => nextPage()} disabled={!canNextPage}>
                     Next
@@ -190,4 +212,19 @@ const TablesInfoPagination = styled.div`
     float: right;
     text-align: right;
     padding-top: 0.25em;
+`
+
+const StyledPaginationBtn = styled.button<{ bgColor: string }>`
+    border: none;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    background-color: #ffffff;
+    ${props => props.bgColor === 'true' && css`
+        border: 1px solid #979797;
+        background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
+    `}
+    &:hover{
+        background-color: #DEDEDE;
+    }
 `
