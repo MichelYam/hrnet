@@ -10,6 +10,7 @@ const Index = ({ columns, data }: any) => {
         getTableBodyProps,
         headerGroups,
         page,
+        pages,
         rows,
         state,
         prepareRow,
@@ -21,11 +22,12 @@ const Index = ({ columns, data }: any) => {
         nextPage,
         previousPage,
         setPageSize,
+        getCellProps,
         preGlobalFilteredRows,
         setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
-
+    console.log(page)
     const getVisiblePages = (page: number, total: number) => {
         if (total <= 7) {
             const res = [];
@@ -39,14 +41,14 @@ const Index = ({ columns, data }: any) => {
             // } else if (page >= total - 1) {
             //     return ["1", "2", "...", `${total - 1}`, `${total}`];
             // } else {
-            //     return ["1", "...", `${page}`, "...", `${total}`];
+            //     return ["1", "...", `${page - 1}`, `${page}`, `${page + 1}`, "...", `${total}`];
             // }
             if (page % 5 >= 0 && page > 4 && page + 2 < total) {
                 return [1, "...", page - 1, page, page + 1, "...", total];
             } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
                 return [1, "...", total - 3, total - 2, total - 1, total];
             } else {
-                return [1, 2, 3, 4, 5, total];
+                return [1, 2, 3, 4, 5, '...', total];
             }
         }
     };
@@ -60,7 +62,7 @@ const Index = ({ columns, data }: any) => {
     const [pagination, setPagination] = useState<(string | number)[]>([])
     useEffect(() => {
         setPagination(
-            getVisiblePages(pageIndex, controlledPageCount)
+            getVisiblePages(pageIndex + 1, controlledPageCount)
         )
     }, [controlledPageCount, pageIndex])
     const onChange = useAsyncDebounce(value => {
@@ -136,7 +138,7 @@ const Index = ({ columns, data }: any) => {
                 </StyledTableTbody>
             </StyledTable>
             <TablesInfo >
-                {`Showing ${pageIndex + 1} to ${page.length} of ${rows.length} entries`}
+                {`Showing ${pageIndex * pageSize + 1} to ${page.length + page.length} of ${rows.length} entries`}
             </TablesInfo>
             <TablesInfoPagination>
 
@@ -149,8 +151,9 @@ const Index = ({ columns, data }: any) => {
                         //     return <button>{page + 1}</button>
                         // })
                         pagination.map((page, index, array) => {
+                            console.log(page)
                             return (
-                                <StyledPaginationBtn onClick={() => gotoPage(index)} key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} >
+                                <StyledPaginationBtn onClick={() => gotoPage(index)} key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} disabled={page === "..." ? true : false} >
                                     {/* {array[index - 1] + 2 < page ? `...` : page} */}
                                     {page}
                                 </StyledPaginationBtn>

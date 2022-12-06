@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal } from '../components/Modal/Modal';
 
-
+import { Departments } from '../data/Departments'
+import { states } from '../data/State'
 import './Style.css';
 
 import styled from "styled-components";
+import Form from '../components/Form';
 
 const NewEmployee = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +33,9 @@ const NewEmployee = () => {
             <div className="container">
                 <Link to="listEmployee">View Current Employees</Link>
                 <h2>Create Employee</h2>
-                <form action="#" id="create-employee" onSubmit={saveEmployee}>
+                <Form departements={Departments} states={states} />
+
+                {/* <form action="#" id="create-employee" onSubmit={saveEmployee}>
                     <label htmlFor="first-name">First Name</label>
                     <input type="text" id="first-name" onChange={(event) => setNewEmployee({ ...newEmployee, firstName: event.target.value })} />
 
@@ -69,7 +73,7 @@ const NewEmployee = () => {
                         <option>Legal</option>
                     </select>
                     <button type="submit">Save</button>
-                </form>
+                </form> */}
 
             </div>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
