@@ -27,7 +27,6 @@ const Index = ({ columns, data }: any) => {
         setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
-    console.log(page)
     const getVisiblePages = (page: number, total: number) => {
         if (total <= 7) {
             const res = [];
@@ -151,7 +150,7 @@ const Index = ({ columns, data }: any) => {
                         //     return <button>{page + 1}</button>
                         // })
                         pagination.map((page, index, array) => {
-                            console.log(page)
+                            // console.log(page)
                             return (
                                 <StyledPaginationBtn onClick={() => gotoPage(index)} key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} disabled={page === "..." ? true : false} >
                                     {/* {array[index - 1] + 2 < page ? `...` : page} */}

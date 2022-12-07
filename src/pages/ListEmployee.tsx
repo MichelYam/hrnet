@@ -1,13 +1,19 @@
-import React, { useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import './Style.css'
 import { columns } from "../data/tableColumn";
 import { mockEmployee } from '../data/MockEmployee'
 import Table from "../components/Table/Index"
 import { Link } from 'react-router-dom';
+
+import { Context } from '../App';
+
 import styled from 'styled-components';
 
+
+
 const NewEmployee = () => {
-    const data = React.useMemo(() => mockEmployee, [])
+    const test = useContext(Context)
+    const data = React.useMemo(() => test, [test])
     const Tablecolumns = useMemo(() => {
         const newColumns: any[] = []
         for (let tets of columns) {
