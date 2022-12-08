@@ -9,9 +9,9 @@ import { mockEmployee } from './data/MockEmployee'
 export interface IEmployee {
   firstName: string;
   lastName: string;
-  startDate: string;
+  startDate: Date | string;
   department: string;
-  dateOfBirth: string;
+  dateOfBirth: Date | string;
   street: string;
   city: string;
   state: string;

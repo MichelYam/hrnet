@@ -27,8 +27,7 @@ const NewEmployee = () => {
 
     return (
         <StyledContainer id="employee-div">
-            <h1>Current Employees</h1>
-            {/* <table id="employee-table" className="display"></table> */}
+            <Title>Current Employees</Title>
             <Table columns={Tablecolumns} data={data} />
             <Link to="/">Home</Link>
         </StyledContainer>
@@ -38,7 +37,7 @@ const NewEmployee = () => {
 
 export default NewEmployee
 
-
+const Title = styled.h1``
 const StyledContainer = styled.div`
 width: 890px;
 margin: auto;

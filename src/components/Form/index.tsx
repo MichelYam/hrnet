@@ -1,9 +1,9 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import Select from 'react-select'
+import Select, { ActionMeta } from 'react-select'
 import styled from 'styled-components'
 import DatePicker from "react-datepicker";
-import { getMonth, getYear } from 'date-fns';
-
+import { getMonth, getYear, format } from 'date-fns';
+import Moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import { IEmployee } from '../../App';
 type props = {
@@ -19,10 +19,14 @@ type props = {
     setNewEmployee: Dispatch<SetStateAction<IEmployee>>,
     newEmployee: IEmployee
 }
-
+type OptionType = {
+    value: string;
+    label: string;
+};
 const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee }: props) => {
     const [dateOfBirth, setdateOfBirth] = useState<Date | null>(new Date())
     const [startDate, setStartDate] = useState<Date | null>(new Date())
+
     const months = [
         "January",
         "February",
@@ -46,6 +50,20 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
     }
     const years = range(1990, getYear(new Date()) + 1);
 
+    const handleState = (date: Date | null) => {
+        setStartDate(date)
+        setNewEmployee({
+            ...newEmployee,
+            startDate: format(startDate!, "MM/dd/yyyy")
+        })
+    }
+    const handleBirthDay = (date: Date | null) => {
+        setdateOfBirth(date)
+        setNewEmployee({
+            ...newEmployee,
+            dateOfBirth: format(date!, "MM/dd/yyyy")
+        })
+    }
     return (
         <Form onSubmit={addEmployee}>
             <FormControl>
@@ -114,7 +132,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                         </button>
                     </div>
                 )}
-                    dateFormat="MM/dd/yyyy" selected={dateOfBirth} onChange={(date) => setdateOfBirth(date)} />
+                    dateFormat="MM/dd/yyyy" selected={dateOfBirth} onChange={(date) => handleBirthDay(date)} />
             </FormControl>
             <FormControl>
                 <FormLabel htmlFor='start-date'>Start Date</FormLabel>
@@ -166,7 +184,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                         </button>
                     </div>
                 )}
-                    dateFormat="MM/dd/yyyy" selected={startDate} onChange={(date) => setStartDate(date)} />
+                    dateFormat="MM/dd/yyyy" selected={startDate} onChange={(date) => handleState(date)} />
             </FormControl>
             <FormFieldSet>
                 <FormFieldLengend>Adress</FormFieldLengend>
@@ -190,12 +208,13 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                 </FormControl>
                 <FormControl>
                     <FormLabel htmlFor='state'>State</FormLabel>
-                    <Select id="state" options={states} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setNewEmployee({
-                            ...newEmployee,
-                            state: e.target.value
-                        })
-                    }} />
+                    <Select id="state" options={states}
+                        onChange={(option: OptionType | null) => {
+                            setNewEmployee({
+                                ...newEmployee,
+                                state: option!.label
+                            })
+                        }} />
                 </FormControl>
                 <FormControl>
                     <FormLabel htmlFor='zip-code'>Zip Code</FormLabel>
@@ -209,7 +228,14 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
             </FormFieldSet>
             <FormControl>
                 <FormLabel htmlFor='departments'>Department</FormLabel>
-                <Select id='departments' options={departements} />
+                <Select id='departments' options={departements}
+                    onChange={(option: OptionType | null) => {
+                        setNewEmployee({
+                            ...newEmployee,
+                            department: option!.label
+                        })
+                    }}
+                />
             </FormControl>
             <FormControl>
                 <FormInput type="submit" id='submit' />

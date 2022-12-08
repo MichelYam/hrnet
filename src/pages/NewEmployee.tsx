@@ -8,12 +8,12 @@ import './Style.css';
 
 import styled from "styled-components";
 import Form from '../components/Form';
-import { Context } from '../App';
+import { Context, IEmployee } from '../App';
 
 const NewEmployee = () => {
     const dataMocked = useContext(Context)
     const [isOpen, setIsOpen] = useState(false);
-    const [newEmployee, setNewEmployee] = useState({
+    const [newEmployee, setNewEmployee] = useState<IEmployee>({
         firstName: "",
         lastName: "",
         startDate: "",
@@ -24,14 +24,15 @@ const NewEmployee = () => {
         state: "",
         zipCode: "",
     })
-
+    
     const addEmployee = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsOpen(!isOpen)
+        // console.log(newEmployee)
         dataMocked?.push(newEmployee)
         sessionStorage.setItem("employees", JSON.stringify(dataMocked));
     }
-    console.log(newEmployee.firstName)
+
     return (
         <div>
             <div className="title">
