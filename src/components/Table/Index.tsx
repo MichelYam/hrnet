@@ -54,7 +54,7 @@ const Index = ({ columns, data }: any) => {
             getVisiblePages(currentPage, controlledPageCount)
         )
     }, [controlledPageCount, currentPage])
-    const test = (currentPage: number) => {
+    const displayPage = (currentPage: number) => {
         let testest = 0
         console.log(currentPage);
 
@@ -70,7 +70,7 @@ const Index = ({ columns, data }: any) => {
         setnbrElement(testest)
     }
     useEffect(() => {
-        test(currentPage)
+        displayPage(currentPage)
     }, [currentPage])
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
