@@ -54,24 +54,24 @@ const Index = ({ columns, data }: any) => {
             getVisiblePages(currentPage, controlledPageCount)
         )
     }, [controlledPageCount, currentPage])
-    const displayPage = (currentPage: number) => {
-        let testest = 0
-        console.log(currentPage);
-
-        for (let i = 1; i <= currentPage; i++) {
-            console.log(i)
-            if (i === currentPage) {
-                testest += page.length
-            } else {
-                testest += pageSize
-            }
-            console.log("newValue:", nbrElement)
-        }
-        setnbrElement(testest)
-    }
     useEffect(() => {
+        const displayPage = (currentPage: number) => {
+            let testest = 0
+            console.log(currentPage);
+    
+            for (let i = 1; i <= currentPage; i++) {
+                console.log(i)
+                if (i === currentPage) {
+                    testest += page.length
+                } else {
+                    testest += pageSize
+                }
+                console.log("newValue:", nbrElement)
+            }
+            setnbrElement(testest)
+        }
         displayPage(currentPage)
-    }, [currentPage])
+    }, [currentPage, nbrElement, page.length, pageSize])
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
