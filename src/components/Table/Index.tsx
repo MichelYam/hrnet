@@ -4,7 +4,6 @@ import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable }
 import styled, { css } from 'styled-components'
 
 const Index = ({ columns, data }: any) => {
-    const [visibility, setVisibility] = useState([])
     const {
         getTableProps,
         getTableBodyProps,
@@ -27,7 +26,7 @@ const Index = ({ columns, data }: any) => {
         setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
-    const getVisiblePages = (page: number, total: number) => {
+    const getVisiblePages = (currentPage: number, total: number) => {
         if (total <= 7) {
             const res = [];
             for (let i = 0; i < total; i++) {
@@ -35,38 +34,48 @@ const Index = ({ columns, data }: any) => {
             }
             return res;
         } else {
-            // if (page <= 2) {
-            //     return ["1", "2", "3", "...", `${total}`];
-            // } else if (page >= total - 1) {
-            //     return ["1", "2", "...", `${total - 1}`, `${total}`];
-            // } else {
-            //     return ["1", "...", `${page - 1}`, `${page}`, `${page + 1}`, "...", `${total}`];
-            // }
-            if (page % 5 >= 0 && page > 4 && page + 2 < total) {
-                return [1, "...", page - 1, page, page + 1, "...", total];
-            } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
-                return [1, "...", total - 3, total - 2, total - 1, total];
+            if (currentPage % 5 >= 0 && currentPage > 4 && currentPage + 2 < total) {
+                return [1, currentPage - 1, currentPage, currentPage + 1, total];
+            } else if (currentPage % 5 >= 0 && currentPage > 4 && currentPage + 2 >= total) {
+                return [1, total - 3, total - 2, total - 1, total];
             } else {
-                return [1, 2, 3, 4, 5, '...', total];
+                return [1, 2, 3, 4, 5, total];
             }
         }
     };
-    // const filterPages = (visiblePages, totalPages) => {
-    //     console.log("test", visiblePages)
-    //     return visiblePages.filter(page => page <= totalPages);
-    // };
-    // console.log("pageOptions", pageOptions)
 
     const [value, setValue] = React.useState(state.globalFilter)
-    const [pagination, setPagination] = useState<(string | number)[]>([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [nbrElement, setnbrElement] = useState(0)
+    const [pagination, setPagination] = useState<(number)[]>([])
     useEffect(() => {
+
         setPagination(
-            getVisiblePages(pageIndex + 1, controlledPageCount)
+            getVisiblePages(currentPage, controlledPageCount)
         )
-    }, [controlledPageCount, pageIndex])
+    }, [controlledPageCount, currentPage])
+    const test = (currentPage: number) => {
+        let testest = 0
+        console.log(currentPage);
+
+        for (let i = 1; i <= currentPage; i++) {
+            console.log(i)
+            if (i === currentPage) {
+                testest += page.length
+            } else {
+                testest += pageSize
+            }
+            console.log("newValue:", nbrElement)
+        }
+        setnbrElement(testest)
+    }
+    useEffect(() => {
+        test(currentPage)
+    }, [currentPage])
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
+    // console.log(pageOptions)
     return (
         <StyledTableContainer>
             <StyledTableLength>
@@ -76,8 +85,7 @@ const Index = ({ columns, data }: any) => {
                         value={pageSize}
                         onChange={e => {
                             setPageSize(Number(e.target.value))
-                        }}
-                    >
+                        }}>
                         {[10, 25, 30, 50, 100].map(pageSize => (
                             <option key={pageSize} value={pageSize}>
                                 {pageSize}
@@ -95,7 +103,6 @@ const Index = ({ columns, data }: any) => {
                             setValue(e.target.value);
                             onChange(e.target.value);
                         }}
-                        // placeholder={`${count} records...`}
                         aria-controls='employee-table'
                     />
                 </label>
@@ -137,35 +144,45 @@ const Index = ({ columns, data }: any) => {
                 </StyledTableTbody>
             </StyledTable>
             <TablesInfo >
-                {`Showing ${pageIndex * pageSize + 1} to ${page.length + page.length} of ${rows.length} entries`}
+                {`Showing ${pageIndex * pageSize + 1} to ${nbrElement} of ${rows.length} entries`}
             </TablesInfo>
             <TablesInfoPagination>
 
-                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                <button onClick={() => {
+                    previousPage()
+                    setCurrentPage((prev) => prev - 1);
+                    // setnbrElement((prev) => prev - page.length)
+                }} disabled={!canPreviousPage}>
                     Previous
                 </button>{' '}
                 <span>
                     {
-                        // pageOptions.map((page) => {
-                        //     return <button>{page + 1}</button>
-                        // })
                         pagination.map((page, index, array) => {
-                            // console.log(page)
-                            return (
-                                <StyledPaginationBtn onClick={() => gotoPage(index)} key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} disabled={page === "..." ? true : false} >
-                                    {/* {array[index - 1] + 2 < page ? `...` : page} */}
+                            return currentPage === page ?
+                                <StyledPaginationSpan key={index} bgColor={currentPage === page ? "true" : "false"}>{page}</StyledPaginationSpan>
+                                :
+                                <StyledPaginationBtn key={index} onClick={() => {
+                                    gotoPage(page - 1)
+                                    setCurrentPage(page)
+
+                                }}>
+                                    {/* key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} disabled={page === "..." ? true : false} > */}
+
                                     {page}
                                 </StyledPaginationBtn>
-                            )
                         })
                     }
                     {' '}
                 </span>
-                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                <button onClick={() => {
+                    nextPage()
+                    setCurrentPage((prev) => prev + 1);
+                    // setnbrElement((prev) => prev + page.length)
+                }} disabled={!canNextPage}>
                     Next
                 </button>{' '}
             </TablesInfoPagination>
-        </StyledTableContainer>
+        </StyledTableContainer >
     )
 }
 
@@ -216,16 +233,21 @@ const TablesInfoPagination = styled.div`
     padding-top: 0.25em;
 `
 
-const StyledPaginationBtn = styled.button<{ bgColor: string }>`
+const StyledPaginationSpan = styled.span<{ bgColor: string }>`
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    ${props => props.bgColor === 'true' && css`
+    border: 1px solid #979797;
+    background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
+`}
+`
+
+const StyledPaginationBtn = styled.button`
     border: none;
     min-width: 1.5em;
     padding: 0.5em 1em;
     cursor: pointer;
     background-color: #ffffff;
-    ${props => props.bgColor === 'true' && css`
-        border: 1px solid #979797;
-        background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
-    `}
     &:hover{
         background-color: #DEDEDE;
     }
