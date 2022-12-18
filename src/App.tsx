@@ -1,10 +1,12 @@
 import React from 'react';
-import './App.css';
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NewEmployee from './pages/NewEmployee';
 import ListEmployee from './pages/ListEmployee';
 import { createContext } from 'react';
 import { mockEmployee } from './data/MockEmployee'
+import "bootstrap/dist/css/bootstrap.min.css";
+import Header from './components/header';
 
 export interface IEmployee {
   firstName: string;
@@ -20,11 +22,12 @@ export interface IEmployee {
 
 export const Context = createContext<IEmployee[] | null>(null);
 function App() {
-  const employeeList: IEmployee[] = mockEmployee
+  const employeeList: IEmployee[] = []
 
   return (
     <Context.Provider value={employeeList}>
       <BrowserRouter >
+      <Header/>
         <Routes >
           <Route path='/' element={<NewEmployee />} />
           <Route path='/listEmployee' element={<ListEmployee />} />

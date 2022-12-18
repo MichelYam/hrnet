@@ -1,3 +1,4 @@
+import { isDisabled } from '@testing-library/user-event/dist/utils'
 import React, { useEffect, useState } from 'react'
 import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table'
 
@@ -9,20 +10,16 @@ const Index = ({ columns, data }: any) => {
         getTableBodyProps,
         headerGroups,
         page,
-        pages,
         rows,
         state,
         prepareRow,
         canPreviousPage,
         canNextPage,
-        pageOptions,
         pageCount: controlledPageCount,
         gotoPage,
         nextPage,
         previousPage,
         setPageSize,
-        getCellProps,
-        preGlobalFilteredRows,
         setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
@@ -35,11 +32,11 @@ const Index = ({ columns, data }: any) => {
             return res;
         } else {
             if (currentPage % 5 >= 0 && currentPage > 4 && currentPage + 2 < total) {
-                return [1, currentPage - 1, currentPage, currentPage + 1, total];
+                return [1, "...", currentPage - 1, currentPage, currentPage + 1, "...", total];
             } else if (currentPage % 5 >= 0 && currentPage > 4 && currentPage + 2 >= total) {
-                return [1, total - 3, total - 2, total - 1, total];
+                return [1, "...", total - 3, total - 2, total - 1, total];
             } else {
-                return [1, 2, 3, 4, 5, total];
+                return [1, 2, 3, 4, 5, "...", total];
             }
         }
     };
@@ -47,9 +44,9 @@ const Index = ({ columns, data }: any) => {
     const [value, setValue] = React.useState(state.globalFilter)
     const [currentPage, setCurrentPage] = useState(1)
     const [nbrElement, setnbrElement] = useState(0)
-    const [pagination, setPagination] = useState<(number)[]>([])
-    useEffect(() => {
+    const [pagination, setPagination] = useState<(number | string)[]>([])
 
+    useEffect(() => {
         setPagination(
             getVisiblePages(currentPage, controlledPageCount)
         )
@@ -57,16 +54,13 @@ const Index = ({ columns, data }: any) => {
     useEffect(() => {
         const displayPage = (currentPage: number) => {
             let testest = 0
-            console.log(currentPage);
-    
             for (let i = 1; i <= currentPage; i++) {
-                console.log(i)
+
                 if (i === currentPage) {
                     testest += page.length
                 } else {
                     testest += pageSize
                 }
-                console.log("newValue:", nbrElement)
             }
             setnbrElement(testest)
         }
@@ -75,51 +69,53 @@ const Index = ({ columns, data }: any) => {
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
-    // console.log(pageOptions)
     return (
         <StyledTableContainer>
-            <StyledTableLength>
-                <label>
-                    Show{' '}
-                    <select
-                        value={pageSize}
-                        onChange={e => {
-                            setPageSize(Number(e.target.value))
-                        }}>
-                        {[10, 25, 30, 50, 100].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                                {pageSize}
-                            </option>
-                        ))}
-                    </select>
-                    {' '} entries
-                </label>
-            </StyledTableLength>
-            <StyledTableSearch>
-                <label>
-                    Search:{' '}
-                    <input type="search" value={value || ""}
+            <div className='d-flex d-flex justify-content-between'>
+                <StyledTableSearch className='d-flex form-group align-items-center'>
+                    <SearchLabel className='mr-2' htmlFor='search'>
+                        Search:
+                    </SearchLabel>
+                    <Input className="form-control" type="search" id='search' value={value || ""}
                         onChange={e => {
                             setValue(e.target.value);
                             onChange(e.target.value);
                         }}
                         aria-controls='employee-table'
                     />
-                </label>
-            </StyledTableSearch>
-            <StyledTable {...getTableProps()}>
+                </StyledTableSearch>
+                <StyledTableLength >
+                    <label className='d-flex align-items-center'>
+                        Show{' '}
+                        <Select className="form-select form-select-sm"
+                            value={pageSize}
+                            onChange={e => {
+                                setPageSize(Number(e.target.value))
+                            }}>
+                            {[10, 25, 30, 50, 100].map(pageSize => (
+                                <option key={pageSize} value={pageSize}>
+                                    {pageSize}
+                                </option>
+                            ))}
+                        </Select>
+                        {' '} entries
+                    </label>
+                </StyledTableLength>
+            </div>
+            <StyledTable className="table" {...getTableProps()}>
                 <StyledTableThead>
                     {headerGroups.map(headerGroup => (
                         <StyledTableTr {...headerGroup.getHeaderGroupProps()} >
                             {headerGroup.headers.map(column => (
-                                <StyledTableTh {...column.getHeaderProps(column.getSortByToggleProps())} >
+                                <StyledTableTh scope="col" {...column.getHeaderProps(column.getSortByToggleProps())} >
                                     {column.render('Header')}
                                     <span>
                                         {column.isSorted
                                             ? column.isSortedDesc
                                                 ? <img src="../assets/img/sort_desc.png" alt="" />
                                                 : <img src="../assets/img/sort_asc.png" alt="" />
-                                            : <img src="../assets/img/sort_both.png" alt="" />}
+                                            : null
+                                        }
                                     </span>
                                 </StyledTableTh>
                             ))}
@@ -144,43 +140,41 @@ const Index = ({ columns, data }: any) => {
                 </StyledTableTbody>
             </StyledTable>
             <TablesInfo >
-                {`Showing ${pageIndex * pageSize + 1} to ${nbrElement} of ${rows.length} entries`}
+                {` ${pageIndex * pageSize + 1}-${nbrElement} of ${rows.length} entries`}
             </TablesInfo>
             <TablesInfoPagination>
-
-                <button onClick={() => {
-                    previousPage()
-                    setCurrentPage((prev) => prev - 1);
-                    // setnbrElement((prev) => prev - page.length)
-                }} disabled={!canPreviousPage}>
-                    Previous
-                </button>{' '}
-                <span>
-                    {
-                        pagination.map((page, index, array) => {
-                            return currentPage === page ?
-                                <StyledPaginationSpan key={index} bgColor={currentPage === page ? "true" : "false"}>{page}</StyledPaginationSpan>
-                                :
-                                <StyledPaginationBtn key={index} onClick={() => {
-                                    gotoPage(page - 1)
-                                    setCurrentPage(page)
-
-                                }}>
-                                    {/* key={index} bgColor={pageIndex + 1 === page ? "true" : "false"} disabled={page === "..." ? true : false} > */}
-
-                                    {page}
-                                </StyledPaginationBtn>
-                        })
-                    }
-                    {' '}
-                </span>
-                <button onClick={() => {
-                    nextPage()
-                    setCurrentPage((prev) => prev + 1);
-                    // setnbrElement((prev) => prev + page.length)
-                }} disabled={!canNextPage}>
-                    Next
-                </button>{' '}
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                        <li className="page-item"><button className="page-link" onClick={() => {
+                            previousPage()
+                            setCurrentPage((prev) => prev - 1);
+                        }} disabled={!canPreviousPage}>Previous</button></li>
+                        {
+                            pagination.map((page, index, array) => (
+                                <li key={index} className="page-item">
+                                    {currentPage === page ?
+                                        <StyledPaginationBtn className={`page-link ${currentPage === page ? "active" : ""} `} disabled>{page}</StyledPaginationBtn>
+                                        :
+                                        page === "..." ?
+                                            <StyledPaginationBtn className="page-link" key={index} disabled>{page}</StyledPaginationBtn>
+                                            :
+                                            <StyledPaginationBtn className="page-link" key={index} onClick={() => {
+                                                // @ts-ignore TS2564
+                                                gotoPage(page - 1)
+                                                // @ts-ignore TS2564
+                                                setCurrentPage(page)
+                                            }}>
+                                                {page}
+                                            </StyledPaginationBtn >}
+                                </li>
+                            ))
+                        }
+                        <li className="page-item"><button className="page-link" onClick={() => {
+                            nextPage()
+                            setCurrentPage((prev) => prev + 1);
+                        }} disabled={!canNextPage}>Next</button></li>
+                    </ul>
+                </nav>
             </TablesInfoPagination>
         </StyledTableContainer >
     )
@@ -191,35 +185,50 @@ const StyledTableContainer = styled.div`
     position: relative;
 `
 const StyledTableLength = styled.div`
-    float: left;
+`
+const Select = styled.select`
+    margin: 0 5px;
 `
 const StyledTableSearch = styled.div`
-    float: right;
-    text-align: right;
+`
+const SearchLabel = styled.label`
+    margin: 10px 10px 10px 0;
+`;
+const Input = styled.input`
+    height: 40px;
 `
 const StyledTable = styled.table`
-    border:none;
-    border-spacing: 0;
+    border-spacing: 0 15px;
+    border-collapse: separate;
+    vertical-align: middle;
+    border: none;
+    background-color: transparent;
 `
 const StyledTableThead = styled.thead`
 
 `
 const StyledTableTr = styled.tr`
-    font-size: 14px;
+    height: 65px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
 `
 const StyledTableTbody = styled.tbody`
-    ${StyledTableTr}:nth-child(odd){
-        background-color: #f9f9f9;
+    ${StyledTableTr}{
+        box-shadow: 0 2px 10px rgb(0 0 0 / 10%);
+        border-radius: 5px;
+        background-color: #FFFFFF;
     }
 `
 const StyledTableTh = styled.th`
-    padding: 10px 18px;
-    border-bottom: 1px solid #111;
-    width: 77px;
+    width: 70px;
+    border: none;
+    font-size: 18px;
 `
 const StyledTableTd = styled.td`
-    border-top: 1px solid #ddd;
-    padding: 8px 10px;
+    width: calc(100% / 9);
+    border: none;
 `
 
 const TablesInfo = styled.div`
@@ -233,22 +242,20 @@ const TablesInfoPagination = styled.div`
     padding-top: 0.25em;
 `
 
-const StyledPaginationSpan = styled.span<{ bgColor: string }>`
-    min-width: 1.5em;
-    padding: 0.5em 1em;
+const StyledPaginationBtn = styled.button<{ bgColor?: string }>`
     ${props => props.bgColor === 'true' && css`
     border: 1px solid #979797;
     background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
 `}
 `
 
-const StyledPaginationBtn = styled.button`
-    border: none;
-    min-width: 1.5em;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    background-color: #ffffff;
-    &:hover{
-        background-color: #DEDEDE;
-    }
-`
+// const StyledPaginationBtn = styled.button`
+//     border: none;
+//     min-width: 1.5em;
+//     padding: 0.5em 1em;
+//     cursor: pointer;
+//     background-color: #ffffff;
+//     &:hover{
+//         background-color: #DEDEDE;
+//     }
+// `

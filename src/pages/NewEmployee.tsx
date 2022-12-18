@@ -24,7 +24,7 @@ const NewEmployee = () => {
         state: "",
         zipCode: "",
     })
-    
+
     const addEmployee = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsOpen(!isOpen)
@@ -39,11 +39,12 @@ const NewEmployee = () => {
                 <h1>HRnet</h1>
             </div>
             <div className="container">
-                <Link to="listEmployee">View Current Employees</Link>
                 <h2>Create Employee</h2>
-                <Form departements={Departments} states={states}
-                    addEmployee={addEmployee}
-                    newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
+                <StyledContainerForm className='border border-gray rounded mx-auto'>
+                    <Form departements={Departments} states={states}
+                        addEmployee={addEmployee}
+                        newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
+                </StyledContainerForm>
             </div>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <div id="confirmation" className="modal">Employee Created!</div>
@@ -55,3 +56,6 @@ const NewEmployee = () => {
 export default NewEmployee
 
 
+const StyledContainerForm = styled.div`
+width: 75%;
+`

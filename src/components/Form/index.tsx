@@ -66,180 +66,187 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
     }
     return (
         <Form onSubmit={addEmployee}>
-            <FormControl>
-                <FormLabel htmlFor='first-name'>First Name</FormLabel>
-                <FormInput type="text" id='first-name' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewEmployee({
-                        ...newEmployee,
-                        firstName: e.target.value
-                    })
-                }} required />
-            </FormControl>
-            <FormControl>
-                <FormLabel htmlFor='last-name'>Last Name</FormLabel>
-                <FormInput type="text" id='last-name' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setNewEmployee({
-                        ...newEmployee,
-                        lastName: e.target.value
-                    })
-                }} required />
-            </FormControl>
-            <FormControl>
-                <FormLabel htmlFor='date-of-birth'>Date of Birth</FormLabel>
-                <DatePicker renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                }) => (
-                    <div
-                        style={{
-                            margin: 10,
-                            display: "flex",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-                            {"<"}
-                        </button>
-                        <select
-                            value={months[getMonth(date)]}
-                            onChange={({ target: { value } }) =>
-                                changeMonth(months.indexOf(value))
-                            }
-                        >
-                            {months.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            value={getYear(date)}
-                            onChange={({ target: { value } }: any) => changeYear(value)}
-                        >
-                            {years.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-                            {">"}
-                        </button>
-                    </div>
-                )}
-                    dateFormat="MM/dd/yyyy" selected={dateOfBirth} onChange={(date) => handleBirthDay(date)} />
-            </FormControl>
-            <FormControl>
-                <FormLabel htmlFor='start-date'>Start Date</FormLabel>
-                <DatePicker renderCustomHeader={({
-                    date,
-                    changeYear,
-                    changeMonth,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                }) => (
-                    <div
-                        style={{
-                            margin: 10,
-                            display: "flex",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-                            {"<"}
-                        </button>
-                        <select
-                            value={months[getMonth(date)]}
-                            onChange={({ target: { value } }) =>
-                                changeMonth(months.indexOf(value))
-                            }
-                        >
-                            {months.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            value={getYear(date)}
-                            onChange={({ target: { value } }: any) => changeYear(value)}
-                        >
-                            {years.map((option) => (
-                                <option key={option} value={option}>
-                                    {option}
-                                </option>
-                            ))}
-                        </select>
-
-
-                        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-                            {">"}
-                        </button>
-                    </div>
-                )}
-                    dateFormat="MM/dd/yyyy" selected={startDate} onChange={(date) => handleState(date)} />
-            </FormControl>
-            <FormFieldSet>
-                <FormFieldLengend>Adress</FormFieldLengend>
-                <FormControl>
-                    <FormLabel htmlFor='street'>Street</FormLabel>
-                    <FormInput type="text" id='street' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            <div className="row">
+                <div className="form-group col-md-6">
+                    <label htmlFor="first-name">First Name</label>
+                    <input type="email" className="form-control" id="first-name" placeholder="first-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setNewEmployee({
                             ...newEmployee,
-                            street: e.target.value
+                            firstName: e.target.value
                         })
                     }} required />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='city'>City</FormLabel>
-                    <FormInput type="text" id='city' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                </div>
+                <div className="form-group col-md-6">
+                    <label htmlFor="last-name">Password</label>
+                    <input type="text" className="form-control" id="last-name" placeholder="last-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setNewEmployee({
                             ...newEmployee,
-                            city: e.target.value
+                            lastName: e.target.value
                         })
                     }} required />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='state'>State</FormLabel>
-                    <Select id="state" options={states}
-                        onChange={(option: OptionType | null) => {
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="form-group col-md-6">
+                    <label htmlFor='date-of-birth'>Date of Birth</label>
+                    <DatePicker className="form-control" renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        decreaseMonth,
+                        increaseMonth,
+                        prevMonthButtonDisabled,
+                        nextMonthButtonDisabled,
+                    }) => (
+                        <div
+                            style={{
+                                margin: 10,
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                                {"<"}
+                            </button>
+                            <select
+                                value={months[getMonth(date)]}
+                                onChange={({ target: { value } }) =>
+                                    changeMonth(months.indexOf(value))
+                                }
+                            >
+                                {months.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                value={getYear(date)}
+                                onChange={({ target: { value } }: any) => changeYear(value)}
+                            >
+                                {years.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                                {">"}
+                            </button>
+                        </div>
+                    )}
+                        dateFormat="MM/dd/yyyy" selected={dateOfBirth} onChange={(date) => handleBirthDay(date)} />
+                </div>
+                <div className="form-group col-md-6">
+                    <label htmlFor='start-date'>Start Date</label>
+                    <DatePicker className="form-control" renderCustomHeader={({
+                        date,
+                        changeYear,
+                        changeMonth,
+                        decreaseMonth,
+                        increaseMonth,
+                        prevMonthButtonDisabled,
+                        nextMonthButtonDisabled,
+                    }) => (
+                        <div
+                            style={{
+                                margin: 10,
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+                                {"<"}
+                            </button>
+                            <select
+                                value={months[getMonth(date)]}
+                                onChange={({ target: { value } }) =>
+                                    changeMonth(months.indexOf(value))
+                                }
+                            >
+                                {months.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                value={getYear(date)}
+                                onChange={({ target: { value } }: any) => changeYear(value)}
+                            >
+                                {years.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+
+
+                            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+                                {">"}
+                            </button>
+                        </div>
+                    )}
+                        dateFormat="MM/dd/yyyy" selected={startDate} onChange={(date) => handleState(date)} />
+                </div>
+            </div>
+            <FieldSet >
+                <FieldLengend>Address</FieldLengend>
+                <div className='row'>
+                    <div className='form-group col-md-4'>
+                        <label htmlFor='street'>Street</label>
+                        <input className='form-control' type="text" id='street' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                             setNewEmployee({
                                 ...newEmployee,
-                                state: option!.label
+                                street: e.target.value
                             })
-                        }} />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='zip-code'>Zip Code</FormLabel>
-                    <FormInput type="number" id='zip-code' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setNewEmployee({
-                            ...newEmployee,
-                            zipCode: e.target.value
-                        })
-                    }} required />
-                </FormControl>
-            </FormFieldSet>
-            <FormControl>
-                <FormLabel htmlFor='departments'>Department</FormLabel>
-                <Select id='departments' options={departements}
-                    onChange={(option: OptionType | null) => {
-                        setNewEmployee({
-                            ...newEmployee,
-                            department: option!.label
-                        })
-                    }}
-                />
-            </FormControl>
-            <FormControl>
-                <FormInput type="submit" id='submit' />
-            </FormControl>
+                        }} required />
+                    </div>
+                    <div className='form-group col-md-4'>
+                        <label htmlFor='city'>City</label>
+                        <input className='form-control' type="text" id='city' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setNewEmployee({
+                                ...newEmployee,
+                                city: e.target.value
+                            })
+                        }} required />
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='form-group col-md-6'>
+                        <label htmlFor='state'>State</label>
+                        <Select id="state" options={states}
+                            onChange={(option: OptionType | null) => {
+                                setNewEmployee({
+                                    ...newEmployee,
+                                    state: option!.label
+                                })
+                            }} />
+                    </div>
+                    <div className='form-group col-md-4'>
+                        <label htmlFor='departments'>Department</label>
+                        <Select id='departments' options={departements}
+                            onChange={(option: OptionType | null) => {
+                                setNewEmployee({
+                                    ...newEmployee,
+                                    department: option!.label
+                                })
+                            }}
+                        />
+                    </div>
+                    <div className='form-group col-md-2'>
+                        <label htmlFor='zip-code'>Zip Code</label>
+                        <input className='form-control' type="number" id='zip-code' onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setNewEmployee({
+                                ...newEmployee,
+                                zipCode: e.target.value
+                            })
+                        }} required />
+                    </div>
+                </div>
+            </FieldSet>
+            <button type="submit" className="btn btn-primary">Sign in</button>
         </Form>
     )
 }
@@ -248,14 +255,27 @@ export default Index
 
 
 const Form = styled.form`
+    width:100%;
+    padding: 20px;
 `;
 const FormControl = styled.div`
 `;
-const FormLabel = styled.label`
+const Formlabel = styled.label`
 `;
 const FormInput = styled.input`
 `;
-const FormFieldSet = styled.fieldset`
+const FieldSet = styled.fieldset`
+border: 1px solid #ced4da;
+padding: 0 1.4em 1.4em 1.4em;
+margin: 0 0 1.5em 0;
+border-radius: 0.375rem;
 `;
-const FormFieldLengend = styled.legend`
+const FieldLengend = styled.legend`
+font-size: 1.2em;
+font-weight: bold;
+text-align: left;
+width:auto;
+padding:0 10px;
+border-bottom:none;
+float:none;
 `;
