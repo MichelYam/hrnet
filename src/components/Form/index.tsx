@@ -69,7 +69,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
             <div className="row">
                 <div className="form-group col-md-6">
                     <label htmlFor="first-name">First Name</label>
-                    <input type="email" className="form-control" id="first-name" placeholder="first-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    <input type="email" className="form-control" id="first-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setNewEmployee({
                             ...newEmployee,
                             firstName: e.target.value
@@ -78,7 +78,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor="last-name">Password</label>
-                    <input type="text" className="form-control" id="last-name" placeholder="last-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    <input type="text" className="form-control" id="last-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setNewEmployee({
                             ...newEmployee,
                             lastName: e.target.value

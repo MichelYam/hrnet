@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Modal } from '../components/Modal/Modal';
 
 import { Departments } from '../data/Departments'
@@ -9,6 +8,8 @@ import './Style.css';
 import styled from "styled-components";
 import Form from '../components/Form';
 import { Context, IEmployee } from '../App';
+
+import Input from "my-react-datapicker";
 
 const NewEmployee = () => {
     const dataMocked = useContext(Context)
@@ -46,6 +47,7 @@ const NewEmployee = () => {
                         newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
                 </StyledContainerForm>
             </div>
+            <Input />
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <div id="confirmation" className="modal">Employee Created!</div>
             </Modal>
