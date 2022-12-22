@@ -8,11 +8,13 @@ import './Style.css';
 import styled from "styled-components";
 import Form from '../components/Form';
 import { Context, IEmployee } from '../App';
+// import { Counter } from 'dzadzadzadzadaz';
+// import Calendar from "my-react-datapicker";
 
-import Input from "my-react-datapicker";
+import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 
-const NewEmployee = () => {
-    const dataMocked = useContext(Context)
+function NewEmployee(): JSX.Element {
+    const dataMocked = useContext(Context);
     const [isOpen, setIsOpen] = useState(false);
     const [newEmployee, setNewEmployee] = useState<IEmployee>({
         firstName: "",
@@ -24,15 +26,15 @@ const NewEmployee = () => {
         city: "",
         state: "",
         zipCode: "",
-    })
-
+    });
+    const { saveEmployee } = useContext(EmployeeContext) as EmployeeContextType
     const addEmployee = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setIsOpen(!isOpen)
-        // console.log(newEmployee)
-        dataMocked?.push(newEmployee)
-        sessionStorage.setItem("employees", JSON.stringify(dataMocked));
-    }
+        e.preventDefault();
+        setIsOpen(!isOpen);
+        saveEmployee(newEmployee)
+        // dataMocked?.push(newEmployee);
+        // sessionStorage.setItem("employees", JSON.stringify(dataMocked));
+    };
 
     return (
         <div>
@@ -47,12 +49,13 @@ const NewEmployee = () => {
                         newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
                 </StyledContainerForm>
             </div>
-            <Input />
+            {/* <Calendar /> */}
+            {/* <Counter /> */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <div id="confirmation" className="modal">Employee Created!</div>
+                <div id="confirmation">Employee Created!</div>
             </Modal>
         </div>
-    )
+    );
 }
 
 export default NewEmployee

@@ -3,17 +3,17 @@ import './Style.css'
 import { columns } from "../data/tableColumn";
 import { mockEmployee } from '../data/MockEmployee'
 import Table from "../components/Table/Index"
-import { Link } from 'react-router-dom';
 
-import { Context } from '../App';
+import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 
 import styled from 'styled-components';
 
 
 
 const NewEmployee = () => {
-    const test = useContext(Context)
-    const data = React.useMemo(() => mockEmployee, [mockEmployee])
+    // const employee = useContext(Context)
+    const { employees } = useContext(EmployeeContext) as EmployeeContextType
+    const data = React.useMemo(() => employees, [employees])
     const Tablecolumns = useMemo(() => {
         const newColumns: any[] = []
         for (let tets of columns) {

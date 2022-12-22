@@ -3,7 +3,6 @@ import Select, { ActionMeta } from 'react-select'
 import styled from 'styled-components'
 import DatePicker from "react-datepicker";
 import { getMonth, getYear, format } from 'date-fns';
-import Moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import { IEmployee } from '../../App';
 type props = {
@@ -69,7 +68,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
             <div className="row">
                 <div className="form-group col-md-6">
                     <label htmlFor="first-name">First Name</label>
-                    <input type="email" className="form-control" id="first-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    <input type="text" className="form-control" id="first-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         setNewEmployee({
                             ...newEmployee,
                             firstName: e.target.value

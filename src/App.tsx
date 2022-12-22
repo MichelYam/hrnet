@@ -7,6 +7,7 @@ import { createContext } from 'react';
 import { mockEmployee } from './data/MockEmployee'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from './components/header';
+import EmployeeProvider from './context/employeeContext';
 
 export interface IEmployee {
   firstName: string;
@@ -25,15 +26,15 @@ function App() {
   const employeeList: IEmployee[] = []
 
   return (
-    <Context.Provider value={employeeList}>
+    <EmployeeProvider>
       <BrowserRouter >
-      <Header/>
+        <Header />
         <Routes >
           <Route path='/' element={<NewEmployee />} />
           <Route path='/listEmployee' element={<ListEmployee />} />
         </Routes>
       </BrowserRouter>
-    </Context.Provider>
+    </EmployeeProvider>
   );
 }
 
