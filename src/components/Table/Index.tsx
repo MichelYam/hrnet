@@ -58,7 +58,7 @@ const Index = ({ columns, data }: any) => {
 
                 if (i === currentPage) {
                     testest += page.length
-                } else {
+                } else { 
                     testest += pageSize
                 }
             }
@@ -73,10 +73,10 @@ const Index = ({ columns, data }: any) => {
         <StyledTableContainer>
             <div className='d-flex d-flex justify-content-between'>
                 <StyledTableSearch className='d-flex form-group align-items-center'>
-                    <SearchLabel className='mr-2' htmlFor='search'>
+                    {/* <SearchLabel className='mr-2' htmlFor='search'>
                         Search:
-                    </SearchLabel>
-                    <Input className="form-control" type="search" id='search' value={value || ""}
+                    </SearchLabel> */}
+                    <Input className="form-control" type="search" id='search' value={value || ""} placeholder="Search employee"
                         onChange={e => {
                             setValue(e.target.value);
                             onChange(e.target.value);
@@ -140,7 +140,7 @@ const Index = ({ columns, data }: any) => {
                 </StyledTableTbody>
             </StyledTable>
             <TablesInfo >
-                {` ${pageIndex * pageSize + 1}-${nbrElement} of ${rows.length} entries`}
+                {` ${!nbrElement ? 0 : pageIndex * pageSize + 1}-${nbrElement} of ${rows.length} entries`}
             </TablesInfo>
             <TablesInfoPagination>
                 <nav aria-label="Page navigation example">

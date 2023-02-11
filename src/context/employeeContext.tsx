@@ -19,10 +19,21 @@ export type EmployeeContextType = {
 export const EmployeeContext = createContext<EmployeeContextType | null>(null)
 const EmployeeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
-  const [employees, setEmployees] = useState<IEmployee[]>([])
+  const [employees, setEmployees] = useState<IEmployee[]>([
+    {
+      firstName: "Jean",
+      lastName: "Dujardin",
+      startDate: "01/26/2023",
+      department: "Marketing",
+      dateOfBirth: "01/26/2023",
+      street: "Alaska",
+      city: "Alaska",
+      state: "Alaska",
+      zipCode: "789456",
+    }
+  ])
   const saveEmployee = (employee: IEmployee) => {
     const newEmployee = {
-      // id: Math.random(),
       firstName: employee.firstName,
       lastName: employee.lastName,
       startDate: employee.startDate,

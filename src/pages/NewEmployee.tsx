@@ -1,46 +1,47 @@
 import React, { useContext, useState } from 'react';
+//Components
 import { Modal } from '../components/Modal/Modal';
-
+import Form from '../components/Form';
+//Data
 import { Departments } from '../data/Departments'
 import { states } from '../data/State'
+
+import { Context, IEmployee } from '../App';
+import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
+import styled from "styled-components";
 import './Style.css';
 
-import styled from "styled-components";
-import Form from '../components/Form';
-import { Context, IEmployee } from '../App';
-// import { Counter } from 'dzadzadzadzadaz';
-// import Calendar from "my-react-datapicker";
-
-import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
-
 function NewEmployee(): JSX.Element {
+    const { saveEmployee } = useContext(EmployeeContext) as EmployeeContextType
     const dataMocked = useContext(Context);
     const [isOpen, setIsOpen] = useState(false);
     const [newEmployee, setNewEmployee] = useState<IEmployee>({
         firstName: "",
         lastName: "",
         startDate: "",
-        department: "",
         dateOfBirth: "",
+        department: "",
         street: "",
         city: "",
         state: "",
         zipCode: "",
     });
-    const { saveEmployee } = useContext(EmployeeContext) as EmployeeContextType
-    const addEmployee = (e: React.FormEvent<HTMLFormElement>) => {
+    const addEmployee = (e: React.FormEvent<HTMLFormElement>, dateOfBirth: string, startDate: string) => {
         e.preventDefault();
+        setNewEmployee({
+            ...newEmployee,
+            dateOfBirth: dateOfBirth,
+            startDate: startDate
+        })
         setIsOpen(!isOpen);
         saveEmployee(newEmployee)
-        // dataMocked?.push(newEmployee);
-        // sessionStorage.setItem("employees", JSON.stringify(dataMocked));
     };
 
     return (
-        <div>
-            <div className="title">
+        <>
+            <StyledTitle className="title">
                 <h1>HRnet</h1>
-            </div>
+            </StyledTitle>
             <div className="container">
                 <h2>Create Employee</h2>
                 <StyledContainerForm className='border border-gray rounded mx-auto'>
@@ -49,18 +50,33 @@ function NewEmployee(): JSX.Element {
                         newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
                 </StyledContainerForm>
             </div>
-            {/* <Calendar /> */}
-            {/* <Counter /> */}
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
                 <div id="confirmation">Employee Created!</div>
             </Modal>
-        </div>
+        </>
     );
 }
 
 export default NewEmployee
 
-
-const StyledContainerForm = styled.div`
-width: 75%;
+const StyledTitle = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
+const StyledContainerForm = styled.div`
+    width: 75%;
+`
+const Styled = styled.h1`
+    width: 75%;
+`
+
+// label {
+//     display: block;
+//     margin-top: 1rem;
+//     margin-bottom: 10px;
+// }
+
+// .address {
+//     margin-top: 10px;
+// }

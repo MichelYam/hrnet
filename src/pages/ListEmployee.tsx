@@ -7,8 +7,7 @@ import Table from "../components/Table/Index"
 import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 
 import styled from 'styled-components';
-
-
+import { Context } from '../App';
 
 const NewEmployee = () => {
     // const employee = useContext(Context)
@@ -16,10 +15,10 @@ const NewEmployee = () => {
     const data = React.useMemo(() => employees, [employees])
     const Tablecolumns = useMemo(() => {
         const newColumns: any[] = []
-        for (let tets of columns) {
+        for (let column of columns) {
             newColumns.push({
-                Header: tets.title,
-                accessor: tets.data
+                Header: column.title,
+                accessor: column.data
             })
         }
         return newColumns
