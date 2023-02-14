@@ -1,15 +1,17 @@
 body {
   margin: 0;
-  background: #f9f9f9;
+  /* background: #f9f9f9;  */
   font-family: "Roboto", sans-serif;
+  background-image: linear-gradient(to right, #93a5cf, #94bcd6, #a7cfd9, #c4e0dd, #e4efe9);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
 
-#root{
+#root {
   width: 100%;
+  color: #000000;
   height: 100vh;
 }

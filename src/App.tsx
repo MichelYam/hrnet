@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NewEmployee from './pages/NewEmployee';
 import ListEmployee from './pages/ListEmployee';
@@ -23,15 +22,13 @@ export interface IEmployee {
 
 export const Context = createContext<IEmployee[] | null>(null);
 function App() {
-  const employeeList: IEmployee[] = []
-
   return (
     <EmployeeProvider>
       <BrowserRouter >
         <Header />
         <Routes >
           <Route path='/' element={<NewEmployee />} />
-          <Route path='/listEmployee' element={<ListEmployee />} />
+          <Route path='/employees' element={<ListEmployee />} />
         </Routes>
       </BrowserRouter>
     </EmployeeProvider>

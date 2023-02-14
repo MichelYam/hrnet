@@ -1,15 +1,16 @@
-import React, { useContext, useState } from 'react';
-//Components
-import { Modal } from '../components/Modal/Modal';
-import Form from '../components/Form';
+import React, { lazy, Suspense, useContext, useState } from 'react';
 //Data
 import { Departments } from '../data/Departments'
 import { states } from '../data/State'
 
 import { Context, IEmployee } from '../App';
 import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
-import styled from "styled-components";
 import './Style.css';
+
+//Components
+const Form = lazy(() => import('../components/Form'))
+const Modal = lazy(() => import('../components/Modal/Modal').then(module => { return { default: module.Modal } }))
+
 
 function NewEmployee(): JSX.Element {
     const { saveEmployee } = useContext(EmployeeContext) as EmployeeContextType
@@ -39,44 +40,24 @@ function NewEmployee(): JSX.Element {
 
     return (
         <>
-            <StyledTitle className="title">
+            <div className="title">
                 <h1>HRnet</h1>
-            </StyledTitle>
-            <div className="container">
-                <h2>Create Employee</h2>
-                <StyledContainerForm className='border border-gray rounded mx-auto'>
-                    <Form departements={Departments} states={states}
-                        addEmployee={addEmployee}
-                        newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
-                </StyledContainerForm>
             </div>
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <div id="confirmation">Employee Created!</div>
-            </Modal>
+            <Suspense fallback={<div>Chargement...</div>}>
+                <div className="container ">
+                    <h2>Create Employee</h2>
+                    <div className='form border shadow p-3 mb-5 bg-white rounded mx-auto'>
+                        <Form departements={Departments} states={states}
+                            addEmployee={addEmployee}
+                            newEmployee={newEmployee} setNewEmployee={setNewEmployee} />
+                    </div>
+                </div>
+                <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                    <div id="confirmation">Employee Created!</div>
+                </Modal>
+            </Suspense >
         </>
     );
 }
 
 export default NewEmployee
-
-const StyledTitle = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
-const StyledContainerForm = styled.div`
-    width: 75%;
-`
-const Styled = styled.h1`
-    width: 75%;
-`
-
-// label {
-//     display: block;
-//     margin-top: 1rem;
-//     margin-bottom: 10px;
-// }
-
-// .address {
-//     margin-top: 10px;
-// }

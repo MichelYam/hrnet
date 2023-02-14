@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from "styled-components";
-
-interface IModal {
-    children: React.ReactNode,
+import PropTypes from 'prop-types';
+interface IProps {
+    children: ReactNode,
     onClose: () => void,
     open: boolean
 }
-export const Modal = ({ children, onClose, open }: IModal) => {
+export const Modal = ({ children, onClose, open }: IProps) => {
     if (!open) return null
     return (
         <>
@@ -20,34 +20,34 @@ export const Modal = ({ children, onClose, open }: IModal) => {
 }
 
 const StyledModal = styled.div`
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-vertical-align: middle;
-z-index: 1000;
-max-width: 500px;
-box-sizing: border-box;
-width: 90%;
-background: #fff;
-padding: 15px 30px;
-border-radius: 8px;
-box-shadow: 0 0 10px #000;
-text-align: left;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    vertical-align: middle;
+    z-index: 1000;
+    max-width: 500px;
+    box-sizing: border-box;
+    width: 90%;
+    background: #fff;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
 `;
 
 const StyledOverlay = styled.div`
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background-color: rgba(0, 0, 0, .7);
-z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 1000;
 `;
 
 const StyledModalIconClose = styled.button`
-position: absolute;
+    position: absolute;
     top: -12.5px;
     right: -12.5px;
     display: block;
@@ -62,3 +62,9 @@ position: absolute;
     background-image: url("../../assets/img/close.png");
     cursor: pointer;
 `;
+
+Modal.prototype = {
+    children: PropTypes.node,
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired
+}

@@ -1,13 +1,9 @@
-import React, { useContext, useMemo } from 'react'
-import './Style.css'
+import React, { lazy, useContext, useMemo, Suspense } from 'react'
 import { columns } from "../data/tableColumn";
-import { mockEmployee } from '../data/MockEmployee'
-import Table from "../components/Table/Index"
-
+// import { mockEmployee } from '../data/MockEmployee'
 import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 
-import styled from 'styled-components';
-import { Context } from '../App';
+const Table = lazy(() => import('../components/Table/Index'))
 
 const NewEmployee = () => {
     // const employee = useContext(Context)
@@ -25,18 +21,14 @@ const NewEmployee = () => {
     }, [])
 
     return (
-        <StyledContainer id="employee-div">
-            <Title>Current Employees</Title>
-            <Table columns={Tablecolumns} data={data} />
-        </StyledContainer>
+        <div id="employee-div">
+            <h1>Current Employees</h1>
+            <Suspense fallback={<div>Chargement...</div>}>
+                <Table columns={Tablecolumns} data={data} />
+            </Suspense>
+        </div>
 
     )
 }
 
 export default NewEmployee
-
-const Title = styled.h1``
-const StyledContainer = styled.div`
-width: 1140px;
-margin: auto;
-`

@@ -12,10 +12,18 @@ const Index = () => {
                 <StyledImg src={'/assets/logo/logo.jpg'} alt="logo du site" />
             </LinkNav>
             {
-                splitLocation[1] === "listEmployee" ?
-                    <LinkNav to="/">Create an employer</LinkNav>
+                splitLocation[1] === "employees" ?
+                    <LinkNav to="/">
+                        <Button>
+                            Create an employer
+                        </Button>
+                    </LinkNav>
                     :
-                    <LinkNav to="/listEmployee">View Current Employees</LinkNav>
+                    <LinkNav to="/employees">
+                        <Button>
+                            View Current Employees
+                        </Button>
+                    </LinkNav>
             }
         </StyledHeader>
     )
@@ -31,6 +39,19 @@ const StyledImg = styled.img`
     height: 100px;
     object-fit: cover;
 `
-export const LinkNav = styled(Link)`
+const LinkNav = styled(Link)`
     text-decoration: none;
+    color: #000000;
+`
+const Button = styled.button`
+    width: 200px;
+    height: 55px;
+    border:none;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 10%);
+    border-radius: 10px;
+    background-color: transparent;
+    :hover{
+        background-color: #94bcd6;
+        transition-duration: 1s;
+    }
 `

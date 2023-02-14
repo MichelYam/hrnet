@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { Datapicker } from 'my-react-datapicker'
 import 'my-react-datapicker/dist/stylesheets/datapicker.css'
 import { getMonth, getYear, format } from 'date-fns';
-// import "react-datepicker/dist/react-datepicker.css";
-// import { Datapicker } from "my-react-datapicker/dist/index";
+import PropTypes from 'prop-types';
+
 
 import { IEmployee } from '../../App';
 
@@ -41,22 +41,6 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
     }
     const years = range(1990, getYear(new Date()) + 1);
 
-    // const handleState = (date: string) => {
-    //     console.log(date);
-
-    //     setStartDate(date)
-    //     setNewEmployee({
-    //         ...newEmployee,
-    //         startDate: startDate
-    //     })
-    // }
-    // const handleBirthDay = (date: string) => {
-    //     setdateOfBirth(date)
-    //     // setNewEmployee({
-    //     //     ...newEmployee,
-    //     //     dateOfBirth: e.target.value
-    //     // })
-    // }
     return (
         <Form onSubmit={(e) => addEmployee(e, dateOfBirth, startDate)}>
             <div className="row">
@@ -225,7 +209,9 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                     </div>
                 </div>
             </FieldSet>
-            <button type="submit" className="btn btn-primary">Sign in</button>
+            <StyledBtn>
+                <Button type="submit" className="btn btn-primary">Create</Button>
+            </StyledBtn>
         </Form>
     )
 }
@@ -234,6 +220,7 @@ export default Index
 
 
 const Form = styled.form`
+    position: relative; 
     width:100%;
     padding: 20px;
 `;
@@ -243,18 +230,34 @@ const Formlabel = styled.label`
 `;
 const FormInput = styled.input`
 `;
+const Button = styled.button`
+
+`;
+const StyledBtn = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`;
 const FieldSet = styled.fieldset`
-border: 1px solid #ced4da;
-padding: 0 1.4em 1.4em 1.4em;
-margin: 0 0 1.5em 0;
-border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+    border-radius: 0.375rem;
 `;
 const FieldLengend = styled.legend`
-font-size: 1.2em;
-font-weight: bold;
-text-align: left;
-width:auto;
-padding:0 10px;
-border-bottom:none;
-float:none;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: left;
+    width:auto;
+    padding:0 10px;
+    border-bottom:none;
+    float:none;
 `;
+
+Index.prototype = {
+    departements: PropTypes.array,
+    states: PropTypes.array,
+    setNewEmployee: PropTypes.func,
+    addEmployee: PropTypes.func,
+    newEmployee: PropTypes.object
+}

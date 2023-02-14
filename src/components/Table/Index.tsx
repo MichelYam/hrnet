@@ -1,8 +1,8 @@
-import { isDisabled } from '@testing-library/user-event/dist/utils'
 import React, { useEffect, useState } from 'react'
 import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table'
 
 import styled, { css } from 'styled-components'
+import PropTypes from 'prop-types';
 
 const Index = ({ columns, data }: any) => {
     const {
@@ -58,7 +58,7 @@ const Index = ({ columns, data }: any) => {
 
                 if (i === currentPage) {
                     testest += page.length
-                } else { 
+                } else {
                     testest += pageSize
                 }
             }
@@ -139,43 +139,46 @@ const Index = ({ columns, data }: any) => {
                     })}
                 </StyledTableTbody>
             </StyledTable>
-            <TablesInfo >
-                {` ${!nbrElement ? 0 : pageIndex * pageSize + 1}-${nbrElement} of ${rows.length} entries`}
-            </TablesInfo>
-            <TablesInfoPagination>
-                <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                        <li className="page-item"><button className="page-link" onClick={() => {
-                            previousPage()
-                            setCurrentPage((prev) => prev - 1);
-                        }} disabled={!canPreviousPage}>Previous</button></li>
-                        {
-                            pagination.map((page, index, array) => (
-                                <li key={index} className="page-item">
-                                    {currentPage === page ?
-                                        <StyledPaginationBtn className={`page-link ${currentPage === page ? "active" : ""} `} disabled>{page}</StyledPaginationBtn>
-                                        :
-                                        page === "..." ?
-                                            <StyledPaginationBtn className="page-link" key={index} disabled>{page}</StyledPaginationBtn>
+            <StyledTableFooter>
+
+                <TablesInfo >
+                    {` ${!nbrElement ? 0 : pageIndex * pageSize + 1}-${nbrElement} of ${rows.length} entries`}
+                </TablesInfo>
+                <TablesInfoPagination>
+                    <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                            <li className="page-item"><button className="page-link" onClick={() => {
+                                previousPage()
+                                setCurrentPage((prev) => prev - 1);
+                            }} disabled={!canPreviousPage}>Previous</button></li>
+                            {
+                                pagination.map((page, index, array) => (
+                                    <li key={index} className="page-item">
+                                        {currentPage === page ?
+                                            <StyledPaginationBtn className={`page-link ${currentPage === page ? "active" : ""} `} disabled>{page}</StyledPaginationBtn>
                                             :
-                                            <StyledPaginationBtn className="page-link" key={index} onClick={() => {
-                                                // @ts-ignore TS2564
-                                                gotoPage(page - 1)
-                                                // @ts-ignore TS2564
-                                                setCurrentPage(page)
-                                            }}>
-                                                {page}
-                                            </StyledPaginationBtn >}
-                                </li>
-                            ))
-                        }
-                        <li className="page-item"><button className="page-link" onClick={() => {
-                            nextPage()
-                            setCurrentPage((prev) => prev + 1);
-                        }} disabled={!canNextPage}>Next</button></li>
-                    </ul>
-                </nav>
-            </TablesInfoPagination>
+                                            page === "..." ?
+                                                <StyledPaginationBtn className="page-link" key={index} disabled>{page}</StyledPaginationBtn>
+                                                :
+                                                <StyledPaginationBtn className="page-link" key={index} onClick={() => {
+                                                    // @ts-ignore TS2564
+                                                    gotoPage(page - 1)
+                                                    // @ts-ignore TS2564
+                                                    setCurrentPage(page)
+                                                }}>
+                                                    {page}
+                                                </StyledPaginationBtn >}
+                                    </li>
+                                ))
+                            }
+                            <li className="page-item"><button className="page-link" onClick={() => {
+                                nextPage()
+                                setCurrentPage((prev) => prev + 1);
+                            }} disabled={!canNextPage}>Next</button></li>
+                        </ul>
+                    </nav>
+                </TablesInfoPagination>
+            </StyledTableFooter>
         </StyledTableContainer >
     )
 }
@@ -183,6 +186,7 @@ const Index = ({ columns, data }: any) => {
 export default Index
 const StyledTableContainer = styled.div`
     position: relative;
+    width: 95%;
 `
 const StyledTableLength = styled.div`
 `
@@ -232,12 +236,10 @@ const StyledTableTd = styled.td`
 `
 
 const TablesInfo = styled.div`
-    float: left;
     padding-top: 0.755em;
 `
 
 const TablesInfoPagination = styled.div`
-    float: right;
     text-align: right;
     padding-top: 0.25em;
 `
@@ -248,7 +250,10 @@ const StyledPaginationBtn = styled.button<{ bgColor?: string }>`
     background: linear-gradient(to bottom, #fff 0%, #dcdcdc 100%);
 `}
 `
-
+const StyledTableFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
 // const StyledPaginationBtn = styled.button`
 //     border: none;
 //     min-width: 1.5em;
@@ -259,3 +264,8 @@ const StyledPaginationBtn = styled.button<{ bgColor?: string }>`
 //         background-color: #DEDEDE;
 //     }
 // `
+
+Index.prototype = {
+    columns: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
+}
