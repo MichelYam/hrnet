@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useState } from 'react'
+import React, { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from 'react'
 
 export interface IEmployee {
   firstName: string;
@@ -13,7 +13,8 @@ export interface IEmployee {
 }
 export type EmployeeContextType = {
   employees: IEmployee[];
-  saveEmployee: (employee: IEmployee) => void;
+  // saveEmployee: (employee: IEmployee) => void;
+  setEmployees: Dispatch<SetStateAction<IEmployee[]>>
 };
 
 export const EmployeeContext = createContext<EmployeeContextType | null>(null)
@@ -32,23 +33,23 @@ const EmployeeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       zipCode: "789456",
     }
   ])
-  const saveEmployee = (employee: IEmployee) => {
-    const newEmployee = {
-      firstName: employee.firstName,
-      lastName: employee.lastName,
-      startDate: employee.startDate,
-      department: employee.department,
-      dateOfBirth: employee.dateOfBirth,
-      street: employee.street,
-      city: employee.city,
-      state: employee.state,
-      zipCode: employee.zipCode,
-    }
-    setEmployees([...employees, newEmployee])
-  }
+  // const saveEmployee = (employee: IEmployee) => {
+  //   const newEmployee = {
+  //     firstName: employee.firstName,
+  //     lastName: employee.lastName,
+  //     startDate: employee.startDate,
+  //     department: employee.department,
+  //     dateOfBirth: employee.dateOfBirth,
+  //     street: employee.street,
+  //     city: employee.city,
+  //     state: employee.state,
+  //     zipCode: employee.zipCode,
+  //   }
+  //   setEmployees([...employees, newEmployee])
+  // }
 
   return (
-    <EmployeeContext.Provider value={{ employees, saveEmployee }}>
+    <EmployeeContext.Provider value={{ employees, setEmployees }}>
       {children}
     </EmployeeContext.Provider>
   )

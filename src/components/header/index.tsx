@@ -15,7 +15,7 @@ const Index = () => {
                 splitLocation[1] === "employees" ?
                     <LinkNav to="/">
                         <Button>
-                            Create an employer
+                            Create employee
                         </Button>
                     </LinkNav>
                     :

@@ -8,6 +8,8 @@ const Table = lazy(() => import('../components/Table/Index'))
 const NewEmployee = () => {
     // const employee = useContext(Context)
     const { employees } = useContext(EmployeeContext) as EmployeeContextType
+    console.log(typeof employees);
+
     const data = React.useMemo(() => employees, [employees])
     const Tablecolumns = useMemo(() => {
         const newColumns: any[] = []

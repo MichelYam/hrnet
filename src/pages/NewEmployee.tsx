@@ -13,8 +13,8 @@ const Modal = lazy(() => import('../components/Modal/Modal').then(module => { re
 
 
 function NewEmployee(): JSX.Element {
-    const { saveEmployee } = useContext(EmployeeContext) as EmployeeContextType
-    const dataMocked = useContext(Context);
+    const { employees, setEmployees } = useContext(EmployeeContext) as EmployeeContextType
+    // const dataMocked = useContext(Context);
     const [isOpen, setIsOpen] = useState(false);
     const [newEmployee, setNewEmployee] = useState<IEmployee>({
         firstName: "",
@@ -34,8 +34,8 @@ function NewEmployee(): JSX.Element {
             dateOfBirth: dateOfBirth,
             startDate: startDate
         })
+        setEmployees([...employees, newEmployee])
         setIsOpen(!isOpen);
-        saveEmployee(newEmployee)
     };
 
     return (

@@ -1,13 +1,13 @@
 import React, { useState, Dispatch, SetStateAction } from 'react'
-import Select, { ActionMeta } from 'react-select'
-import styled from 'styled-components'
+import Select from 'react-select'
+import { IEmployee } from '../../App';
+//Library datapicker
 import { Datapicker } from 'my-react-datapicker'
 import 'my-react-datapicker/dist/stylesheets/datapicker.css'
-import { getMonth, getYear, format } from 'date-fns';
 import PropTypes from 'prop-types';
 
+import styled from 'styled-components'
 
-import { IEmployee } from '../../App';
 
 type props = {
     departements: {
@@ -32,7 +32,10 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
     const [dateOfBirth, setdateOfBirth] = useState("")
     const [startDate, setStartDate] = useState("")
     const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
-    function range(start: number, end: number) {
+    const getYear = (date: Date) => {
+        return date.getFullYear()
+    }
+    const range = (start: number, end: number) => {
         var ans = [];
         for (let i = start; i <= end; i++) {
             ans.push(i);
