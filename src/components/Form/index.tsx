@@ -157,7 +157,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                         dataFormat='DD/MM/YYYY' selectedDate={startDate} setSelectedDate={setStartDate} />
                 </div>
             </div>
-            <FieldSet >
+            <FieldSet>
                 <FieldLengend>Address</FieldLengend>
                 <div className='row'>
                     <div className='form-group col-md-4'>

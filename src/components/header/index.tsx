@@ -9,7 +9,7 @@ const Index = () => {
     return (
         <StyledHeader className='d-flex justify-content-between align-items-center mx-auto'>
             <LinkNav to="/">
-                <StyledImg src={'/assets/logo/logo.jpg'} alt="logo du site" />
+                <StyledImg src={'/assets/logo/logo.png'} alt="logo du site" />
             </LinkNav>
             {
                 splitLocation[1] === "employees" ?
