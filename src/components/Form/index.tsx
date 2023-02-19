@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react'
 import Select from 'react-select'
 import { IEmployee } from '../../App';
 //Library datapicker
@@ -182,24 +182,29 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                 <div className='row'>
                     <div className='form-group col-md-6'>
                         <label htmlFor='state'>State</label>
-                        <Select id="state" options={states}
-                            onChange={(option: OptionType | null) => {
-                                setNewEmployee({
-                                    ...newEmployee,
-                                    state: option!.label
-                                })
-                            }} />
+                        <select name="state" id="state" className="form-select" aria-label="select states" onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                            setNewEmployee({
+                                ...newEmployee,
+                                state: event.target.value
+                            })
+                        }}>
+                            {states.map((item, key) => (
+                                <option key={key} value={item.label}>{item.label}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='form-group col-md-4'>
                         <label htmlFor='departments'>Department</label>
-                        <Select id='departments' options={departements}
-                            onChange={(option: OptionType | null) => {
-                                setNewEmployee({
-                                    ...newEmployee,
-                                    department: option!.label
-                                })
-                            }}
-                        />
+                        <select name="state" id="state" className="form-select" aria-label="select states" onChange={(event: ChangeEvent<HTMLSelectElement>) => {
+                            setNewEmployee({
+                                ...newEmployee,
+                                department: event.target.value
+                            })
+                        }}>
+                            {departements.map((item, key) => (
+                                <option key={key} value={item.label}>{item.label}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='form-group col-md-2'>
                         <label htmlFor='zip-code'>Zip Code</label>
