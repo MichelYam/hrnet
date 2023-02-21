@@ -73,15 +73,14 @@ const Index = ({ columns, data }: any) => {
         <StyledTableContainer>
             <div className='d-flex d-flex justify-content-between'>
                 <StyledTableSearch className='d-flex form-group align-items-center'>
-                    {/* <SearchLabel className='mr-2' htmlFor='search'>
+                    <SearchLabel className='mr-2' htmlFor='search'>
                         Search:
-                    </SearchLabel> */}
-                    <Input className="form-control" type="search" id='search' value={value || ""} placeholder="Search employee"
+                    </SearchLabel>
+                    <Input id='search' className="form-control" type="search" value={value || ""} placeholder="Search employee"
                         onChange={e => {
                             setValue(e.target.value);
                             onChange(e.target.value);
                         }}
-                        aria-controls='employee-table'
                     />
                 </StyledTableSearch>
                 <StyledTableLength >

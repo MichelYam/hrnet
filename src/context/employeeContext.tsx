@@ -33,21 +33,6 @@ const EmployeeProvider: React.FC<PropsWithChildren> = ({ children }) => {
       zipCode: "789456",
     }
   ])
-  // const saveEmployee = (employee: IEmployee) => {
-  //   const newEmployee = {
-  //     firstName: employee.firstName,
-  //     lastName: employee.lastName,
-  //     startDate: employee.startDate,
-  //     department: employee.department,
-  //     dateOfBirth: employee.dateOfBirth,
-  //     street: employee.street,
-  //     city: employee.city,
-  //     state: employee.state,
-  //     zipCode: employee.zipCode,
-  //   }
-  //   setEmployees([...employees, newEmployee])
-  // }
-
   return (
     <EmployeeContext.Provider value={{ employees, setEmployees }}>
       {children}

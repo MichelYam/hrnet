@@ -16,7 +16,7 @@
     "babel-loader": "^9.1.2",
     "bootstrap": "^5.2.3",
     "moment": "^2.29.4",
-    "my-react-datapicker": "^1.0.7",
+    "my-react-datapicker": "^1.0.9",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

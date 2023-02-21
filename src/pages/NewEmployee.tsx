@@ -27,14 +27,11 @@ function NewEmployee(): JSX.Element {
         state: "",
         zipCode: "",
     });
-    const addEmployee = (e: React.FormEvent<HTMLFormElement>, dateOfBirth: string, startDate: string) => {
+    const addEmployee = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setNewEmployee({
-            ...newEmployee,
-            dateOfBirth: dateOfBirth,
-            startDate: startDate
-        })
         setEmployees([...employees, newEmployee])
+        console.log(newEmployee);
+        // reset()
         setIsOpen(!isOpen);
     };
 

@@ -1,9 +1,11 @@
 import React, { useState, Dispatch, SetStateAction, ChangeEvent } from 'react'
 import Select from 'react-select'
 import { IEmployee } from '../../App';
+
 //Library datapicker
 import { Datapicker } from 'my-react-datapicker'
 import 'my-react-datapicker/dist/stylesheets/datapicker.css'
+
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components'
@@ -18,7 +20,7 @@ type props = {
         value: string,
         label: string
     }[],
-    addEmployee: (e: React.FormEvent<HTMLFormElement>, value: string, valueB: string) => void,
+    addEmployee: (e: React.FormEvent<HTMLFormElement>) => void,
     setNewEmployee: Dispatch<SetStateAction<IEmployee>>,
     newEmployee: IEmployee
 }
@@ -44,8 +46,27 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
     }
     const years = range(1990, getYear(new Date()) + 1);
 
+
+    const handleState = (date: string) => {
+        setStartDate(date)
+        setNewEmployee({
+            ...newEmployee,
+            startDate: date
+        })
+    }
+    const handleBirthDay = (date: string) => {
+        setdateOfBirth(date)
+        setNewEmployee({
+            ...newEmployee,
+            dateOfBirth: date
+        })
+    }
     return (
-        <Form onSubmit={(e) => addEmployee(e, dateOfBirth, startDate)}>
+        <Form onSubmit={(e) => {
+            // console.log("dateofBirth", dateOfBirth)
+            // console.log("startDate", startDate)
+            addEmployee(e)
+        }}>
             <div className="row">
                 <div className="form-group col-md-6">
                     <label htmlFor="first-name">First Name</label>
@@ -70,7 +91,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
             <div className="row">
                 <div className="form-group col-md-6">
                     <label htmlFor='date-of-birth'>Date of Birth</label>
-                    <Datapicker
+                    <Datapicker inputId='date-of-birth'
                         customHeader={({
                             currentMonth,
                             currentYear,
@@ -110,11 +131,11 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                                 </button>
                             </div>
                         )}
-                        dataFormat='DD/MM/YYYY' selectedDate={dateOfBirth} setSelectedDate={setdateOfBirth} />
+                        dataFormat='DD/MM/YYYY' selectedDate={dateOfBirth} setSelectedDate={(dateOfBirth) => handleBirthDay(dateOfBirth)} />
                 </div>
                 <div className="form-group col-md-6">
                     <label htmlFor='start-date'>Start Date</label>
-                    <Datapicker
+                    <Datapicker inputId='start-date'
                         customHeader={({
                             currentMonth,
                             currentYear,
@@ -154,7 +175,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                                 </button>
                             </div>
                         )}
-                        dataFormat='DD/MM/YYYY' selectedDate={startDate} setSelectedDate={setStartDate} />
+                        dataFormat='DD/MM/YYYY' selectedDate={startDate} setSelectedDate={(startDate) => handleState(startDate)} />
                 </div>
             </div>
             <FieldSet>
@@ -182,29 +203,24 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
                 <div className='row'>
                     <div className='form-group col-md-6'>
                         <label htmlFor='state'>State</label>
-                        <select name="state" id="state" className="form-select" aria-label="select states" onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                            setNewEmployee({
-                                ...newEmployee,
-                                state: event.target.value
-                            })
-                        }}>
-                            {states.map((item, key) => (
-                                <option key={key} value={item.label}>{item.label}</option>
-                            ))}
-                        </select>
+                        <Select options={states} inputId="state"
+                            onChange={(option: OptionType | null) => {
+                                setNewEmployee({
+                                    ...newEmployee,
+                                    state: option!.label
+                                })
+                            }} />
                     </div>
                     <div className='form-group col-md-4'>
                         <label htmlFor='departments'>Department</label>
-                        <select name="state" id="state" className="form-select" aria-label="select states" onChange={(event: ChangeEvent<HTMLSelectElement>) => {
-                            setNewEmployee({
-                                ...newEmployee,
-                                department: event.target.value
-                            })
-                        }}>
-                            {departements.map((item, key) => (
-                                <option key={key} value={item.label}>{item.label}</option>
-                            ))}
-                        </select>
+                        <Select inputId='departments' options={departements}
+                            onChange={(option: OptionType | null) => {
+                                setNewEmployee({
+                                    ...newEmployee,
+                                    department: option!.label
+                                })
+                            }}
+                        />
                     </div>
                     <div className='form-group col-md-2'>
                         <label htmlFor='zip-code'>Zip Code</label>
