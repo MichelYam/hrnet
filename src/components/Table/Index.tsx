@@ -4,6 +4,12 @@ import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable }
 import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types';
 
+/**
+ * 
+ * @param columns array of title for table
+ * @param data list of employee
+ * @returns JSX Element
+ */
 const Index = ({ columns, data }: any) => {
     const {
         getTableProps,
@@ -23,6 +29,17 @@ const Index = ({ columns, data }: any) => {
         setGlobalFilter,
         state: { pageIndex, pageSize },
     } = useTable({ columns, data, initialState: { pageIndex: 0 }, }, useGlobalFilter, useSortBy, usePagination)
+
+    const [value, setValue] = React.useState(state.globalFilter)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [nbrElement, setnbrElement] = useState(0)
+    const [pagination, setPagination] = useState<(number | string)[]>([])
+    /**
+     * 
+     * @param currentPage current page
+     * @param total total number of pages
+     * @returns array pagination
+     */
     const getVisiblePages = (currentPage: number, total: number) => {
         if (total <= 7) {
             const res = [];
@@ -40,11 +57,6 @@ const Index = ({ columns, data }: any) => {
             }
         }
     };
-
-    const [value, setValue] = React.useState(state.globalFilter)
-    const [currentPage, setCurrentPage] = useState(1)
-    const [nbrElement, setnbrElement] = useState(0)
-    const [pagination, setPagination] = useState<(number | string)[]>([])
 
     useEffect(() => {
         setPagination(
@@ -66,9 +78,13 @@ const Index = ({ columns, data }: any) => {
         }
         displayPage(currentPage)
     }, [currentPage, nbrElement, page.length, pageSize])
+
+
     const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
     }, 200)
+
+    
     return (
         <StyledTableContainer>
             <div className='d-flex d-flex justify-content-between'>

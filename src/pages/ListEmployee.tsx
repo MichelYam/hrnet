@@ -9,6 +9,7 @@ const NewEmployee = () => {
     // const employee = useContext(Context)
     const { employees } = useContext(EmployeeContext) as EmployeeContextType
     const data = React.useMemo(() => employees, [employees])
+    
     const Tablecolumns = useMemo(() => {
         const newColumns: any[] = []
         for (let column of columns) {

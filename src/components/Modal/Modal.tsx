@@ -1,11 +1,15 @@
 import React, { ReactNode } from 'react'
 import styled from "styled-components";
 import PropTypes from 'prop-types';
+
 interface IProps {
+    // Modal content
     children: ReactNode,
     onClose: () => void,
     open: boolean
 }
+
+
 export const Modal = ({ children, onClose, open }: IProps) => {
     if (!open) return null
     return (

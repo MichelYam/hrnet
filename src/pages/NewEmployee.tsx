@@ -3,7 +3,7 @@ import React, { lazy, Suspense, useContext, useState } from 'react';
 import { Departments } from '../data/Departments'
 import { states } from '../data/State'
 
-import { Context, IEmployee } from '../App';
+import { IEmployee } from '../App';
 import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 import './Style.css';
 
@@ -12,7 +12,7 @@ const Form = lazy(() => import('../components/Form'))
 const Modal = lazy(() => import('../components/Modal/Modal').then(module => { return { default: module.Modal } }))
 
 
-function NewEmployee(): JSX.Element {
+const NewEmployee = () => {
     const { employees, setEmployees } = useContext(EmployeeContext) as EmployeeContextType
     // const dataMocked = useContext(Context);
     const [isOpen, setIsOpen] = useState(false);

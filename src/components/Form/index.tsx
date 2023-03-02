@@ -62,11 +62,7 @@ const Index = ({ departements, states, addEmployee, setNewEmployee, newEmployee 
         })
     }
     return (
-        <Form onSubmit={(e) => {
-            // console.log("dateofBirth", dateOfBirth)
-            // console.log("startDate", startDate)
-            addEmployee(e)
-        }}>
+        <Form onSubmit={(e) => { addEmployee(e) }}>
             <div className="row">
                 <div className="form-group col-md-6">
                     <label htmlFor="first-name">First Name</label>
