@@ -1,54 +1,61 @@
 import React, { ReactNode } from 'react'
 import styled from "styled-components";
 import PropTypes from 'prop-types';
-
+import * as CSS from 'csstype';
 interface IProps {
     // Modal content
     children: ReactNode,
     onClose: () => void,
     open: boolean
+    customStyle?: {
+        content?: {}
+        overlay?: {}
+    }
 }
 
-
-export const Modal = ({ children, onClose, open }: IProps) => {
+const defaultStyles = {
+    overlay: {
+        position: "fixed",
+        top: "0",
+        left: "0",
+        right: "0",
+        bottom: "0",
+        backgroundColor: "rgba(0, 0, 0, .7)",
+        zIndex: "1000",
+    },
+    content: {
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        verticalAlign: "middle",
+        zIndex: "1000",
+        maxWidth: "500px",
+        boxSizing: "border-box",
+        width: "90%",
+        background: "#fff",
+        padding: "15px 30px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px #000",
+        textAlign: "left",
+    }
+};
+export const Modal = ({ children, onClose, open, customStyle }: IProps) => {
     if (!open) return null
+    console.log("customStyle", customStyle);
+
+    const custiomOverlay: CSS.Properties = customStyle?.overlay ? customStyle?.overlay : defaultStyles.overlay
+    const custiomContent: CSS.Properties = customStyle?.content ? customStyle?.content : defaultStyles.content
     return (
         <>
-            <StyledOverlay onClick={onClose} />
-            <StyledModal>
+            <div style={custiomOverlay} onClick={onClose} />
+            <div style={custiomContent} >
                 <StyledModalIconClose onClick={onClose}>Close Modal</StyledModalIconClose>
                 {children}
-            </StyledModal>
+            </div>
         </>
     )
 }
-
-const StyledModal = styled.div`
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    vertical-align: middle;
-    z-index: 1000;
-    max-width: 500px;
-    box-sizing: border-box;
-    width: 90%;
-    background: #fff;
-    padding: 15px 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #000;
-    text-align: left;
-`;
-
-const StyledOverlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .7);
-    z-index: 1000;
-`;
 
 const StyledModalIconClose = styled.button`
     position: absolute;

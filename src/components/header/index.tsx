@@ -1,30 +1,26 @@
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components';
+// {logo, path, route}
 
-const Index = () => {
-    let location = useLocation(); //get object that represents the current url
-
-    const { pathname } = location;
-    const splitLocation = pathname.split('/');
+type Prop = {
+    logo: string
+    route: { label: string; path: string; }[]
+}
+const Index = ({ logo, route }: Prop) => {
     return (
         <StyledHeader className='d-flex justify-content-between align-items-center mx-auto'>
             <LinkNav to="/">
-                <StyledImg src={'/assets/logo/logo.png'} alt="logo du site" />
+                <StyledImg src={logo} alt="logo du site" />
             </LinkNav>
-            {
-                splitLocation[1] === "employees" ?
-                    <LinkNav to="/">
+            <div>
+                {route.map((item, index) => {
+                    return <LinkNav key={index} to={item.path}>
                         <Button>
-                            Create employee
+                            {item.label}
                         </Button>
                     </LinkNav>
-                    :
-                    <LinkNav to="/employees">
-                        <Button>
-                            View Current Employees
-                        </Button>
-                    </LinkNav>
-            }
+                })}
+            </div>
         </StyledHeader>
     )
 }
@@ -32,7 +28,7 @@ const Index = () => {
 export default Index
 
 const StyledHeader = styled.div`
-    width: 95%;
+    width: 90%;
 `
 const StyledImg = styled.img`
     width: 100px;
@@ -42,6 +38,9 @@ const StyledImg = styled.img`
 const LinkNav = styled(Link)`
     text-decoration: none;
     color: #000000;
+    :nth-child(1){
+        margin-right: 10px;
+    }
 `
 const Button = styled.button`
     width: 200px;
