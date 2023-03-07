@@ -6,14 +6,15 @@ import { states } from '../data/State'
 import { IEmployee } from '../App';
 import { EmployeeContext, EmployeeContextType } from '../context/employeeContext';
 import './Style.css';
-// import FieldDatapicker from '../components/Form/fieldDatapicker';
+//Library datapicker
+import { Datapicker } from 'my-react-datapicker'
+import 'my-react-datapicker/dist/stylesheets/datapicker.css'
 
 //Components
 import Select from 'react-select'
 
 const Modal = lazy(() => import('../components/Modal/Modal').then(module => { return { default: module.Modal } }))
-const FieldInput = lazy(() => import('../components/Form/fieldInput'))
-const FieldDatapicker = lazy(() => import('../components/Form/fieldDatapicker'))
+const InputField = lazy(() => import('../components/Form/InputField'))
 
 type OptionType = {
     label: string
@@ -21,6 +22,7 @@ type OptionType = {
 }
 
 const NewEmployee = () => {
+
     const [dateOfBirth, setdateOfBirth] = useState("")
     const [startDate, setStartDate] = useState("")
     const { employees, setEmployees } = useContext(EmployeeContext) as EmployeeContextType
@@ -36,6 +38,19 @@ const NewEmployee = () => {
         state: "",
         zipCode: "",
     });
+
+    const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    const getYear = (date: Date) => {
+        return date.getFullYear()
+    }
+    const range = (start: number, end: number) => {
+        var ans = [];
+        for (let i = start; i <= end; i++) {
+            ans.push(i);
+        }
+        return ans;
+    }
+    const years = range(1990, getYear(new Date()) + 1);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewEmployee({
@@ -74,48 +89,114 @@ const NewEmployee = () => {
                 <div className="container ">
                     <h2>Create Employee</h2>
                     <div className='form border shadow p-3 mb-5 bg-white rounded mx-auto'>
-                        {/* <Form departements={Departments} states={states}
-                            addEmployee={addEmployee}
-                            newEmployee={newEmployee} setNewEmployee={setNewEmployee} /> */}
                         <form onSubmit={(e) => { addEmployee(e) }}>
                             <div className="row">
                                 <div className="form-group col-md-6">
-                                    <label htmlFor="firstName">First Name</label>
-                                    <FieldInput label='firstName' type="text" handleChange={handleChange} classInput="form-control" />
+                                    <InputField name="firstName" label='First Name' type="text" handleChange={handleChange} classInput="form-control" />
                                 </div>
                                 <div className="form-group col-md-6">
-                                    <label htmlFor="lastName">Last Name</label>
-                                    <FieldInput label='lastName' type="text" handleChange={handleChange} classInput="form-control" />
-
-                                    {/* <input type="text" className="form-control" id="last-name" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                        setNewEmployee({
-                                            ...newEmployee,
-                                            lastName: e.target.value
-                                        })
-                                    }} required /> */}
+                                    <InputField name="lastName" label='Last Name' type="text" handleChange={handleChange} classInput="form-control" />
                                 </div>
                             </div>
 
                             <div className="row">
                                 <div className="form-group col-md-6">
                                     <label htmlFor='date-of-birth'>Date of Birth</label>
-                                    <FieldDatapicker inputId='date-of-birth' dataFormat='DD/MM/YYYY' selectedDate={dateOfBirth} onChange={(dateOfBirth: string) => handleBirthDay(dateOfBirth)} />
+                                    <Datapicker inputId='date-of-birth'
+                                        customHeader={({
+                                            currentMonth,
+                                            currentYear,
+                                            changeMonth,
+                                            changeYear,
+                                            prev,
+                                            next,
+                                        }: any) => (
+                                            <div>
+                                                <button onClick={prev}>
+                                                    {"<"}
+                                                </button>
+                                                <select
+                                                    value={months[currentMonth as unknown as number]}
+                                                    onChange={({ target: { value } }) =>
+                                                        changeMonth(months.indexOf(value))
+                                                    }
+                                                >
+                                                    {months.map((option) => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <select
+                                                    value={currentYear}
+                                                    onChange={({ target: { value } }: any) => changeYear(value)}
+                                                >
+                                                    {years.map((option) => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <button onClick={next} >
+                                                    {">"}
+                                                </button>
+                                            </div>
+                                        )}
+                                        dataFormat='DD/MM/YYYY' selectedDate={dateOfBirth} setSelectedDate={(dateOfBirth) => handleBirthDay(dateOfBirth)} />
                                 </div>
                                 <div className="form-group col-md-6">
                                     <label htmlFor='start-date'>Start Date</label>
-                                    <FieldDatapicker inputId='start-date' dataFormat='DD/MM/YYYY' selectedDate={startDate} onChange={(startDate: string) => handleState(startDate)} />
+                                    <Datapicker inputId='start-date'
+                                        customHeader={({
+                                            currentMonth,
+                                            currentYear,
+                                            changeMonth,
+                                            changeYear,
+                                            prev,
+                                            next,
+                                        }: any) => (
+                                            <div>
+                                                <button onClick={prev}>
+                                                    {"<"}
+                                                </button>
+                                                <select
+                                                    value={months[currentMonth as unknown as number]}
+                                                    onChange={({ target: { value } }) =>
+                                                        changeMonth(months.indexOf(value))
+                                                    }
+                                                >
+                                                    {months.map((option) => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <select
+                                                    value={currentYear}
+                                                    onChange={({ target: { value } }: any) => changeYear(value)}
+                                                >
+                                                    {years.map((option) => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <button onClick={next} >
+                                                    {">"}
+                                                </button>
+                                            </div>
+                                        )}
+                                        dataFormat='DD/MM/YYYY' selectedDate={startDate} setSelectedDate={(startDate) => handleState(startDate)} />
                                 </div>
                             </div>
                             <fieldset className='fieldset'>
                                 <legend>Address</legend>
                                 <div className='row'>
                                     <div className='form-group col-md-4'>
-                                        <label htmlFor='street'>Street</label>
-                                        <FieldInput label='street' type="text" handleChange={handleChange} classInput="form-control" />
+                                        <InputField label='Street' name="street" type="text" handleChange={handleChange} classInput="form-control" />
                                     </div>
                                     <div className='form-group col-md-4'>
-                                        <label htmlFor='city'>City</label>
-                                        <FieldInput label='city' type="text" handleChange={handleChange} classInput="form-control" />
+                                        <InputField label='City' name="city" type="text" handleChange={handleChange} classInput="form-control" />
                                     </div>
                                 </div>
                                 <div className='row'>
@@ -141,8 +222,7 @@ const NewEmployee = () => {
                                         />
                                     </div>
                                     <div className='form-group col-md-2'>
-                                        <label htmlFor='zipCode'>Zip Code</label>
-                                        <FieldInput label='zipCode' type="number" handleChange={handleChange} classInput="form-control" />
+                                        <InputField label='Zip Code' name="zipCode" type="number" handleChange={handleChange} classInput="form-control" />
                                     </div>
                                 </div>
                             </fieldset>
