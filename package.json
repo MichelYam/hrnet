@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/MichelYam/hrnet"
   },
+  "homepage": "https://MichelYam.github.io/hrnet",
   "dependencies": {
     "@babel/core": "^7.20.12",
     "@testing-library/jest-dom": "^5.16.5",
@@ -37,6 +38,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -61,6 +64,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-datepicker": "^4.8.0"
+    "@types/react-datepicker": "^4.8.0",
+    "gh-pages": "^5.0.0"
   }
 }
