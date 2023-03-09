@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/hrnet/static/css/main.1a79248b.css",
+    "main.js": "/hrnet/static/js/main.5d088c28.js",
+    "static/js/590.b3c469ec.chunk.js": "/hrnet/static/js/590.b3c469ec.chunk.js",
+    "static/js/761.67636ffb.chunk.js": "/hrnet/static/js/761.67636ffb.chunk.js",
+    "static/js/821.de7959b3.chunk.js": "/hrnet/static/js/821.de7959b3.chunk.js",
+    "static/js/105.7d8f3b7a.chunk.js": "/hrnet/static/js/105.7d8f3b7a.chunk.js",
+    "index.html": "/hrnet/index.html",
+    "main.1a79248b.css.map": "/hrnet/static/css/main.1a79248b.css.map",
+    "main.5d088c28.js.map": "/hrnet/static/js/main.5d088c28.js.map",
+    "590.b3c469ec.chunk.js.map": "/hrnet/static/js/590.b3c469ec.chunk.js.map",
+    "761.67636ffb.chunk.js.map": "/hrnet/static/js/761.67636ffb.chunk.js.map",
+    "821.de7959b3.chunk.js.map": "/hrnet/static/js/821.de7959b3.chunk.js.map",
+    "105.7d8f3b7a.chunk.js.map": "/hrnet/static/js/105.7d8f3b7a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1a79248b.css",
+    "static/js/main.5d088c28.js"
+  ]
+}
