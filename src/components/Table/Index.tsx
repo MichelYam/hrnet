@@ -4,6 +4,9 @@ import { useAsyncDebounce, useGlobalFilter, usePagination, useSortBy, useTable }
 import styled, { css } from 'styled-components'
 import PropTypes from 'prop-types';
 
+import sortDesc from "../../assets/img/sort_desc.png"
+import sortAsc from "../../assets/img/sort_asc.png"
+
 /**
  * 
  * @param columns array of title for table
@@ -84,7 +87,7 @@ const Index = ({ columns, data }: any) => {
         setGlobalFilter(value || undefined)
     }, 200)
 
-    
+
     return (
         <StyledTableContainer>
             <div className='d-flex d-flex justify-content-between'>
@@ -127,8 +130,8 @@ const Index = ({ columns, data }: any) => {
                                     <span>
                                         {column.isSorted
                                             ? column.isSortedDesc
-                                                ? <img src="../assets/img/sort_desc.png" alt="" />
-                                                : <img src="../assets/img/sort_asc.png" alt="" />
+                                                ? <img src={sortDesc} alt="" />
+                                                : <img src={sortAsc} alt="" />
                                             : null
                                         }
                                     </span>
