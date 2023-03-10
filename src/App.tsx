@@ -39,7 +39,7 @@ function App() {
       <BrowserRouter >
         <Header logo="./assets/logo/logo.png" route={route} />
         <Routes >
-          <Route path='/' element={<NewEmployee />} />
+          <Route path='/hrnet' element={<NewEmployee />} />
           <Route path='/employees' element={<ListEmployee />} />
         </Routes>
       </BrowserRouter>
