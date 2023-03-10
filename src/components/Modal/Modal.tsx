@@ -70,7 +70,7 @@ const StyledModalIconClose = styled.button`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("../../assets/img/close.png");
+    background-image: url("./assets/img/close.png");
     cursor: pointer;
 `;
 
