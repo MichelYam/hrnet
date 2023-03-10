@@ -2,6 +2,9 @@ import React, { ReactNode } from 'react'
 import styled from "styled-components";
 import PropTypes from 'prop-types';
 import * as CSS from 'csstype';
+
+import close from '../../assets/img/close.png'
+
 interface IProps {
     // Modal content
     children: ReactNode,
@@ -50,7 +53,7 @@ export const Modal = ({ children, onClose, open, customStyle }: IProps) => {
         <>
             <div style={custiomOverlay} onClick={onClose} />
             <div style={custiomContent} >
-                <StyledModalIconClose onClick={onClose}>Close Modal</StyledModalIconClose>
+                <StyledModalIconClose onClick={onClose} />
                 {children}
             </div>
         </>
@@ -70,7 +73,7 @@ const StyledModalIconClose = styled.button`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("./assets/img/close.png");
+    background-image: url(${close});
     cursor: pointer;
 `;
 

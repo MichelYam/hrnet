@@ -7,6 +7,7 @@ import Header from './components/header';
 import EmployeeProvider from './context/employeeContext';
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import logo from "./assets/logo/logo.png";
 
 
 export interface IEmployee {
@@ -26,7 +27,7 @@ export const Context = createContext<IEmployee[] | null>(null);
 const route = [
   {
     label: "Create employee",
-    path: "/"
+    path: "/hrnet"
   },
   {
     label: "View Current Employees",
@@ -37,7 +38,7 @@ function App() {
   return (
     <EmployeeProvider>
       <BrowserRouter >
-        <Header logo="./assets/logo/logo.png" route={route} />
+        <Header logo={logo} route={route} />
         <Routes >
           <Route path='/hrnet' element={<NewEmployee />} />
           <Route path='/employees' element={<ListEmployee />} />

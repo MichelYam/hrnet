@@ -9,7 +9,7 @@ type Prop = {
 const Index = ({ logo, route }: Prop) => {
     return (
         <StyledHeader className='d-flex justify-content-between align-items-center mx-auto'>
-            <LinkNav to="/">
+            <LinkNav to="/hrnet">
                 <StyledImg src={logo} alt="logo du site" />
             </LinkNav>
             <div>
