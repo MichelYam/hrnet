@@ -85,9 +85,9 @@ const NewEmployee = () => {
             <div className="title">
                 <h1>HRnet</h1>
             </div>
-            <Suspense fallback={<div>Chargement...</div>}>
-                <div className="container ">
-                    <h2>Create Employee</h2>
+            <div className="container ">
+                <h2>Create Employee</h2>
+                <Suspense fallback={<div>Chargement...</div>}>
                     <div className='form border shadow p-3 mb-5 bg-white rounded mx-auto'>
                         <form onSubmit={(e) => { addEmployee(e) }}>
                             <div className="row">
@@ -231,11 +231,11 @@ const NewEmployee = () => {
                             </div>
                         </form>
                     </div>
-                </div>
-                <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                    <div id="confirmation">Employee Created!</div>
-                </Modal>
-            </Suspense >
+                </Suspense >
+            </div>
+            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                <div id="confirmation">Employee Created!</div>
+            </Modal>
         </>
     );
 }
