@@ -37,7 +37,7 @@ function App() {
   return (
     <EmployeeProvider>
       <BrowserRouter >
-        <Header logo="/assets/logo/logo.png" route={route} />
+        <Header logo="./assets/logo/logo.png" route={route} />
         <Routes >
           <Route path='/' element={<NewEmployee />} />
           <Route path='/employees' element={<ListEmployee />} />
