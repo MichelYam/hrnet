@@ -111,7 +111,7 @@ const NewEmployee = () => {
                                             prev,
                                             next,
                                         }: any) => (
-                                            <div>
+                                            <div className='datapicker-header'>
                                                 <button onClick={prev}>
                                                     {"<"}
                                                 </button>
@@ -155,7 +155,7 @@ const NewEmployee = () => {
                                             prev,
                                             next,
                                         }: any) => (
-                                            <div>
+                                            <div className='datapicker-header'>
                                                 <button onClick={prev}>
                                                     {"<"}
                                                 </button>

@@ -84,3 +84,14 @@ label {
     display: flex;
     justify-content: flex-end;
 }
+
+.datapicker-header {
+    display: flex;
+    align-items: center;
+}
+
+.datapicker-header button {
+    font-size: 24px;
+    background: transparent;
+    border: none;
+}
