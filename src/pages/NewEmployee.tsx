@@ -83,12 +83,12 @@ const NewEmployee = () => {
 
     return (
         <>
-            <div className="title">
-                <h1>HRnet</h1>
-            </div>
-            <div className="container ">
-                <h2>Create Employee</h2>
-                <Suspense fallback={<div>Chargement...</div>}>
+            <Suspense fallback={<div>Chargement...</div>}>
+                <div className="title">
+                    <h1>HRnet</h1>
+                </div>
+                <div className="container ">
+                    <h2>Create Employee</h2>
                     <div className='form border shadow p-3 mb-5 bg-white rounded mx-auto'>
                         <form id="form" onSubmit={(e) => { addEmployee(e) }}>
                             <div className="row">
@@ -232,11 +232,11 @@ const NewEmployee = () => {
                             </div>
                         </form>
                     </div>
-                </Suspense >
-            </div>
-            <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <div id="confirmation">Employee Created!</div>
-            </Modal>
+                </div>
+                <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+                    <div id="confirmation">Employee Created!</div>
+                </Modal>
+            </Suspense >
         </>
     );
 }
