@@ -31,7 +31,7 @@ const route = [
   },
   {
     label: "View Current Employees",
-    path: "/employees"
+    path: "/hrnet/employees"
   },
 ]
 function App() {
@@ -41,7 +41,7 @@ function App() {
         <Header logo={logo} route={route} />
         <Routes >
           <Route path='/hrnet' element={<NewEmployee />} />
-          <Route path='/employees' element={<ListEmployee />} />
+          <Route path='/hrnet/employees' element={<ListEmployee />} />
         </Routes>
       </BrowserRouter>
     </EmployeeProvider>
