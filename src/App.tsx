@@ -27,11 +27,11 @@ export const Context = createContext<IEmployee[] | null>(null);
 const route = [
   {
     label: "Create employee",
-    path: "/hrnet"
+    path: "/"
   },
   {
     label: "View Current Employees",
-    path: "/hrnet/employees"
+    path: "/employees"
   },
 ]
 function App() {
@@ -40,8 +40,8 @@ function App() {
       <BrowserRouter basename='/hrnet'>
         <Header logo={logo} route={route} />
         <Routes >
-          <Route path='/hrnet' element={<NewEmployee />} />
-          <Route path='/hrnet/employees' element={<ListEmployee />} />
+          <Route path='/' element={<NewEmployee />} />
+          <Route path='/employees' element={<ListEmployee />} />
         </Routes>
       </BrowserRouter>
     </EmployeeProvider>
