@@ -37,7 +37,7 @@ const route = [
 function App() {
   return (
     <EmployeeProvider>
-      <BrowserRouter >
+      <BrowserRouter basename='/hrnet'>
         <Header logo={logo} route={route} />
         <Routes >
           <Route path='/hrnet' element={<NewEmployee />} />
