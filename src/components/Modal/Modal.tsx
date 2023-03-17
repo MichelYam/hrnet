@@ -43,6 +43,15 @@ const defaultStyles = {
         textAlign: "left",
     }
 };
+
+/**
+ * 
+ * @param {Object} props.children modal container user
+ * @param {Object} props.onClose function update state of modal
+ * @param {Object} props.open state of modal
+ * @param {Object} props.customStyle css custom of modal
+ * @returns custom Modal
+ */
 export const Modal = ({ children, onClose, open, customStyle }: IProps) => {
     if (!open) return null
     console.log("customStyle", customStyle);

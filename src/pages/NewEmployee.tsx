@@ -76,8 +76,9 @@ const NewEmployee = () => {
         e.preventDefault();
         setEmployees([...employees, newEmployee])
         console.log(newEmployee);
-        // reset()
         setIsOpen(!isOpen);
+        const resetForm = document.getElementById("form") as HTMLFormElement
+        resetForm.reset()
     };
 
     return (
@@ -89,7 +90,7 @@ const NewEmployee = () => {
                 <h2>Create Employee</h2>
                 <Suspense fallback={<div>Chargement...</div>}>
                     <div className='form border shadow p-3 mb-5 bg-white rounded mx-auto'>
-                        <form onSubmit={(e) => { addEmployee(e) }}>
+                        <form id="form" onSubmit={(e) => { addEmployee(e) }}>
                             <div className="row">
                                 <div className="form-group col-md-6">
                                     <InputField name="firstName" label='First Name' type="text" handleChange={handleChange} classInput="form-control" />

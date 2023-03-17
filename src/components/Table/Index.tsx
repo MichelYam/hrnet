@@ -9,9 +9,9 @@ import sortAsc from "../../assets/img/sort_asc.png"
 
 /**
  * 
- * @param columns array of title for table
- * @param data list of employee
- * @returns JSX Element
+ * @param props.columns array of title for table
+ * @param props.data list of employee
+ * @returns table component and pagination
  */
 const Index = ({ columns, data }: any) => {
     const {
